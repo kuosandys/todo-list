@@ -4,14 +4,19 @@ const TodosModel = () => {
         //'sample project': []
     };
     let todosCount = 0;
+    let todoListUpdated;
 
 
     //takes info, makes a todo obj, adds an id to it and stores it the appropriate project
-    const addTodo = (todoInfo, project) => {
-        let todo = Todo(todoInfo);
+    const addTodo = (newTodoInfo) => {
+        let project = newTodoInfo[project];
+        delete newTodoInfo[project];
+        let todo = Todo(newTodoInfo);
         todo.id = todosCount++;
         projectList[project] = projectList[project] || [];
         projectList[project].push(todo);
+
+        todoListUpdated( getAllTodos() );
     };
 
     //get a todo from the projectList by key and specified value
@@ -32,6 +37,7 @@ const TodosModel = () => {
                 }
             })
         });
+        todoListUpdated( getAllTodos() );
     };
 
     //delete a todo item
@@ -39,6 +45,7 @@ const TodosModel = () => {
         Object.keys(projectList).forEach(project => {
             projectList[project] = projectList[project].filter(item => item.id !== +id);
         });
+        todoListUpdated( getAllTodos() );
     };
 
     //create new project
@@ -63,6 +70,10 @@ const TodosModel = () => {
         return array;
     };
 
+    const bindUpdateTodoList = (controllerAction) => {
+        todoListUpdated = controllerAction;
+    };
+
 
 
     return {
@@ -73,7 +84,8 @@ const TodosModel = () => {
         editTodo,
         addProject,
         deleteProject,
-        getAllTodos
+        getAllTodos,
+        bindUpdateTodoList
     }
 };
 
