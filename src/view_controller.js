@@ -24,6 +24,7 @@ const ViewController = () => {
         newButton.addEventListener('click', e => {
             e.preventDefault();
             renderForm();
+            newTodo.style.display = 'none';
         });
         newTodo.appendChild(newButton);
         root.appendChild(newTodo);
@@ -136,6 +137,10 @@ const ViewController = () => {
             formDiv.removeChild(formDiv.lastChild);
         };
         formElements = [];
+
+        // Show button to create form again
+        let newTodoDiv = document.getElementById('new-todo');
+        newTodoDiv.style.display = 'initial';
     };
 
     // const _resetForm = () => {
