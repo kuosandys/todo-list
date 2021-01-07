@@ -1,105 +1,112 @@
-//Manages the storage of the todo items
+// Factory function that creates a model to organize Todo's
 const TodosModel = () => {
-    let projectList = {
-        //'sample project': []
-    };
+    let _todos = [];
+    let _projectList = []
     let todosCount = 0;
-    let todoListUpdated;
+    let todosChanged;
+    let gotTodos;
 
 
-    //takes info, makes a todo obj, adds an id to it and stores it the appropriate project
-    const addTodo = (newTodoInfo) => {
-        let project = newTodoInfo[project];
-        delete newTodoInfo[project];
-        let todo = Todo(newTodoInfo);
-        todo.id = todosCount++;
-        projectList[project] = projectList[project] || [];
-        projectList[project].push(todo);
+    // Creates a Todo and adds it to the appropriate project array
+    const addTodo = (infoObject, id) => {
+        let todo = Todo(
+            infoObject['title'],
+            infoObject['description'],
+            infoObject['due'],
+            infoObject['notes'],
+            infoObject['project'],
+            id || todosCount++
+            );
+        _todos.push(todo);
 
-        todoListUpdated( getAllTodos() );
+        let project = todo['project'];
+        if ( !_projectList.includes(project) ) _projectList.push(project);
+
+        todosChanged(_todos);
     };
 
-    //get a todo from the projectList by key and specified value
-    const getTodo = function(key, value) {
-        let todo;
-        Object.keys(projectList).forEach(project => {
-            todo = projectList[project].filter(item => item.key == value)[0] || false;
-        });
-        return todo;
+    // Delete a Todo by id
+    const deleteTodo = (id) => {
+        _todos = _todos.filter(todo => todo.id !== +id);
+
+        todosChanged(_todos);
     };
 
     //edits a todo item - by storing a new todo object with the same id
     const editTodo = (todo, id)  => {
-        Object.keys(projectList).forEach(project => {
-            projectList[project].forEach(item => {
-                if (item.id === +id) {
-                    item = Object.assign(item, todo);
-                }
-            })
-        });
-        todoListUpdated( getAllTodos() );
+        let todoSelected = _todos.find(todo => todo['id'] == id);
+        let todoNew = Object.assign(todoSelected, todo);
+
+        _todos = _todos.filter(todo => todo.id !== +id);
+        _todos.push(todoNew);
+
+        let project = todo['project'];
+        if ( !_projectList.includes(project) ) _projectList.push(project);
+
+        todosChanged(_todos);
     };
 
-    //delete a todo item
-    const deleteTodo = (id) => {
-        Object.keys(projectList).forEach(project => {
-            projectList[project] = projectList[project].filter(item => item.id !== +id);
-        });
-        todoListUpdated( getAllTodos() );
-    };
-
-    //create new project
-    const addProject = (name) => {
-        if (projectList.hasOwnProperty(name)) {
-            return false;
+    //get a todo from the _projectList by key and specified value
+    const getTodos = function(key, value) {
+        if (!key && !value) {
+            gotTodos (_todos);
+            // return _todos;
+        } else {
+            let todosFiltered = _todos.filter(todo => todo[key] == value);
+            console.log(todosFiltered)
+            gotTodos (todosFiltered);
+            // return todosFiltered;
         };
-        projectList[name] = [];
     };
 
-    //delete project
-    const deleteProject = (name) => {
-        delete projectList[name];
+    const toggleTodoComplete = (id) => {
+        let todoSelected = _todos.find(todo => todo['id'] === id);
+        todoSelected['complete'] = !todoSelected['complete'];
+
+        todosChanged(_todos);
+        // let todoNew = Object.assign(todoSelected, todo);
+
+        // _todos = _todos.filter(todo => todo.id !== +id);
+        // _todos.push(todoNew);
     }
 
-    //return all todos as a flat array
-    const getAllTodos = () => {
-        let array = [];
-        Object.keys(projectList).forEach(project => {
-            projectList[project].forEach(item => array.push(item));
-        });
-        return array;
+    // Bind a Controller action to todosChanged event
+    const bindTodosChanged = (controllerAction) => {
+        todosChanged = controllerAction;
     };
 
-    const bindUpdateTodoList = (controllerAction) => {
-        todoListUpdated = controllerAction;
-    };
+    // Bind a Controller action to gotTodo event
+    const bindGotTodos = (controllerAction) => {
+        gotTodos = controllerAction;
+    }
 
 
 
     return {
-        projectList,
         addTodo,
-        getTodo,
         deleteTodo,
         editTodo,
-        addProject,
-        deleteProject,
-        getAllTodos,
-        bindUpdateTodoList
+        getTodos,
+        toggleTodoComplete,
+
+        bindTodosChanged,
+        bindGotTodos,
     }
 };
 
-// creates a todo object from user input
-const Todo = (title, description, due, notes) => {
-    let completed = false;
+// Function factory to create Todo objects
+const Todo = (title, description, due, notes, project, id) => {
+    let complete = false;
 
     return {
         title,
         description,
         due,
         notes,
-        completed
+        complete,
+        project,
+        id
     }
 };
 
-export { TodosModel }
+export { TodosModel, Todo}

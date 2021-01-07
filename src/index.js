@@ -1,36 +1,76 @@
 import { TodosModel } from './todos_model.js';
 import { ViewController } from './view_controller.js';
 
-const appController = (() => {
+// Factory Function that creates the controller object with a single API method: startUp
+const TodosController = () => {
+
     const model = TodosModel();
     const view = ViewController();
 
+    // Initialize app
     const startUp = () => {
-        model.bindUpdateTodoList(updateTodoList);
+        // Initial render
         view.renderInitial();
-        updateTodoList(model.getAllTodos());
-        view.bindAddTodo(handleAddTodo);
-        view.bindDeleteTodo(handleDeleteTodo);
+
+        // Bind Controller actions to todosModel
+        model.bindTodosChanged(handleTodosChanged);
+        model.bindGotTodos(handleGotTodos);
+
+        // Bind methods to event listeners in view controller
+        view.bindRequestAddTodo(handleAddTodo);
+        view.bindRequestDeleteTodo(handleDeleteTodo);
+        view.bindRequestEditTodo(handleRequestTodo);
+        view.bindRequestSaveTodo(handleRequestEditTodo);
+        view.bindRequestCompleteTodo(handleRequestCompleteTodo);
+
+        // Call handleTodosChanged to render all todo's in model
+        handleTodosChanged(model.getTodos());
     };
 
-    const updateTodoList = (todos) => {
-        view.renderTodos(todos)
+    // Model -> View to render todos on change
+    const handleTodosChanged = (todos) => {
+        view.renderTodos(todos);
     };
 
-    const handleAddTodo = (newFormInput) => {
-        model.addTodo(newFormInput);
+    // View -> Model to add a new Todo
+    const handleAddTodo = (inputObject) => {
+        model.addTodo(inputObject);
     };
 
+    // View -> Model to delete a Todo
     const handleDeleteTodo = (todoId) => {
         model.deleteTodo(todoId);
     }
 
+    // View -> Model to get a Todo
+    const handleRequestTodo = (todoId) => {
+        model.getTodos('id', +todoId);
+    }
+
+    // Model -> View to return requested Todo(s)
+    const handleGotTodos = (todos) => {
+        if (todos.length === 1) {
+            view.renderEditTodo(todos[0]);
+            view.bindRequestSaveTodo(handleRequestEditTodo);
+        } else {
+            view.renderTodos();
+        };
+    };
+
+    const handleRequestEditTodo = (inputObject, todoId) => {
+        model.editTodo(inputObject, todoId);
+    };
+
+    const handleRequestCompleteTodo = (id) => {
+        model.toggleTodoComplete(+id);
+    }
 
     return {
         startUp
     };
 
-})();
+};
 
-console.log('starting')
-appController.startUp();
+
+let app = TodosController();
+app.startUp();
