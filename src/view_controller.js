@@ -115,13 +115,16 @@ const ViewController = (Todo) => {
             if (key === 'due') {
                 newInput.type = 'date';
                 newInput.value = formatDate(new Date(), 'yyyy-MM-dd');
+            } else if (key === 'description') {
+                newInput = document.createElement('textarea');
+                newInput.placeholder = 'Notes e.g. don\'t use floo powder';
+                newInput.rows = '3';
             } else {
                 newInput.type = 'text';
                 newInput.value = (key === 'project') ? 'New Project' : '';
                 newInput.placeholder = (key === 'title')
-                    ? 'Task e.g. go to Diagon Alley'
-                    : (key === 'description')
-                        ? 'Notes e.g. don\'t use floo powder' : '';
+                    ? 'Task e.g. go to Diagon Alley' 
+                    : '';
             };
 
             newInput.name = key;
@@ -567,7 +570,13 @@ const ViewController = (Todo) => {
 
             if (e.target.classList.contains('clear-completed-todos')) {
 
-                _getCompletedIds().forEach(id => controllerAction(id));
+                let confirmation = confirm('Are you sure you want to clear?');
+
+                if (confirmation) {
+                    _getCompletedIds().forEach(id => controllerAction(id));
+                } else {
+                    return;
+                };
                 
             };
         });

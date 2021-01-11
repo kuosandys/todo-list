@@ -391,18 +391,22 @@ header {
     background-color: $neutral-5;
     padding: $font-size-2;
 
-    input {
+    input, textarea {
         width: 80%;
-        height: $font-size-5;
+        height: auto;
         font-size: $font-size-2;
         margin: 0 auto $font-size-0;
         border: 1px solid $neutral-4;
         border-radius: $border-radius;
-        padding: 0 $font-size-0 / 2;
+        padding: $font-size-0 / 2;
 
         ::placeholder {
             font-style: italic;
         }
+    }
+
+    textarea {
+        resize: none;
     }
 
     p {
