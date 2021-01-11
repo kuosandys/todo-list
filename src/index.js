@@ -26,12 +26,13 @@ const TodosController = () => {
         view.bindRequestCompleteTodo(handleRequestCompleteTodo);
 
         // Call handleTodosChanged to render all todo's in model
-        handleTodosChanged(model.getTodos());
+        handleTodosChanged(model.getTodos(), model.getProjects());
     };
 
     // Model -> View to render todos on change
-    const handleTodosChanged = (todos) => {
+    const handleTodosChanged = (todos, projects) => {
         view.renderTodos(todos);
+        view.renderProjects(projects)
     };
 
     // View -> Model to add a new Todo

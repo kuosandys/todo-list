@@ -53,7 +53,7 @@ const TodosModel = () => {
     };
 
     //get a todo from the _projectList by key and specified value
-    const getTodos = function(key, value) {
+    const getTodos = (key, value) => {
         if (!key && !value) {
             _saveChanges();
             return _todos;
@@ -62,6 +62,11 @@ const TodosModel = () => {
             gotTodos (todosFiltered);
             // return todosFiltered;
         };
+    };
+
+    // Get the list of projects
+    const getProjects = () => {
+        return _projectList;
     };
 
     const toggleTodoComplete = (id) => {
@@ -82,7 +87,7 @@ const TodosModel = () => {
     }
 
     const _saveChanges = () => {
-        todosChanged(_todos);
+        todosChanged(_todos, _projectList);
         localStorage.setItem('todos', JSON.stringify(_todos));
         localStorage.setItem('projects', JSON.stringify(_projectList));
     };
@@ -94,6 +99,7 @@ const TodosModel = () => {
         deleteTodo,
         editTodo,
         getTodos,
+        getProjects,
         toggleTodoComplete,
 
         bindTodosChanged,

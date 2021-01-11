@@ -49,14 +49,19 @@ header {
 
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: $font-size-0;
 }
 
 .title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: $font-size-0 / 2 $font-size-1;
+    height: 80 - $font-size-0;
+
     display: flex;
     align-items: flex-start;
-    line-height: 1.6;
 
     h1 {
         color: $neutral-0;
@@ -87,7 +92,9 @@ header {
 }
 
 //----- + button
-#new-todo {
+.new-todo {
+    order: 3;
+    visibility: visible;
 
     button {
         @include square-button;
@@ -96,7 +103,50 @@ header {
 
 //--Add new Todo button: toggle class on click
 .hide-new-todo-button {
-    display: none;
+    visibility: hidden;
+
+}
+
+.projects-button {
+    visibility: hidden;
+
+}
+
+.show-projects-button {
+    order: 2;
+    margin: $font-size-0/2;
+    visibility: visible;
+
+    button {
+        @include square-button;
+    }
+}
+
+//-----Projects div
+.show-projects-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+    max-height: $font-size-6 * 10;
+    height: auto;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-top: 80px;
+    z-index: 10;
+    border-bottom: 1px solid $neutral-4;
+
+    background-color: $neutral-5;
+    padding: $font-size-2;
+
+    p {
+        text-transform: uppercase;
+        font-size: $font-size-2;
+        text-decoration: underline;
+    }
 }
 
 //----- main div with Todos
@@ -184,7 +234,7 @@ header {
     top: $font-size-6 / 2;
     left: $font-size-6 / 2;
 
-    border: 2px solid $neutral-4;
+    border: 3px solid $neutral-4;
     border-radius: $font-size-6;
 
     display: flex;
@@ -214,17 +264,18 @@ header {
 //-----Todo completion checkbox: completed state
 .completed {
     background-color: $neutral-4;
-    border: 2px solid $neutral-4;
+    border: 3px solid $neutral-4;
 }
 
 //-----Todo: expanded view
 .expanded-todo {
     height: auto;
-    min-height: $font-size-6 * 4.75;
+    min-height: $font-size-6 * 5;
     max-height: $font-size-6 * 6;
     background-color: $neutral-6;
     border: 1px solid $neutral-4;
     border-radius: $border-radius;
+    padding-bottom: $font-size-3;
 
     display: flex;
     flex-direction: column;
@@ -241,6 +292,11 @@ header {
         overflow-y: scroll;
     }
 
+    .todo-placeholder-text {
+        font-style: italic;
+        color: $neutral-4;
+    }
+
     .todo-project {
         order: 1;
         display: initial;
@@ -252,7 +308,8 @@ header {
 
     // Edit and Delete buttons
     button {
-        font-size: $font-size-4;
+        font-size: $font-size-5;
+        font-weight: 400;
         color: $neutral-4;
         background-color: transparent;
     }
@@ -260,15 +317,15 @@ header {
     .delete-todo {
         display: initial;
         position: absolute;
-        top: $font-size-6 * 2 + $font-size-1 * 2 + $font-size-4;
-        left: $font-size-3;
+        bottom: $font-size-0;
+        left: $font-size-2;
     }
 
     .edit-todo {
         display: initial;
         position: absolute;
-        top: $font-size-6 * 2 + $font-size-1;
-        left: $font-size-3;
+        bottom: $font-size-0 + $font-size-7;
+        left: $font-size-2;
     }
 }
 
@@ -292,6 +349,7 @@ header {
     left: 0;
     margin-top: 80px;
     z-index: 10;
+    border-bottom: 1px solid $neutral-4;
 
     background-color: $neutral-5;
     padding: $font-size-2;

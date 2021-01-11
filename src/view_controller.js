@@ -1,5 +1,4 @@
 import { format as formatDate} from 'date-fns';
-import { parse as parseDate } from 'date-fns';
 
 // Factory function that creates an object to interact with the DOM
 const ViewController = (Todo) => {
@@ -7,16 +6,21 @@ const ViewController = (Todo) => {
     const templateTodo = Todo;
 
     const root = document.body;
+    let newTodo;
+    let viewProjects;
     let formDiv;
     let backdropDiv;
     let todosDiv;
     let editTodoDiv;
+    let projectsDiv;
     let formElements;
 
     // Initialize the display
     const renderInitial = () => {
+        // Header
         let header = document.createElement('header');
 
+        // Title
         let titleDiv = document.createElement('div');
         titleDiv.classList.add('title');
         let title = document.createElement('h1');
@@ -27,39 +31,67 @@ const ViewController = (Todo) => {
         titleDiv.appendChild(description);
         header.appendChild(titleDiv);
 
-        let newTodo = document.createElement('div');
-        newTodo.id = 'new-todo';
+        // Add New Todo button
+        newTodo = document.createElement('div');
+        newTodo.classList.add('new-todo');
+
         let newButton = document.createElement('button');
         newButton.innerHTML = '<i class="fas fa-plus"></i>';
         newButton.addEventListener('click', e => {
-            e.preventDefault();
             renderForm();
             newTodo.classList.add('hide-new-todo-button');
+            viewProjects.classList.toggle('show-projects-button');
         });
+
         newTodo.appendChild(newButton);
         header.appendChild(newTodo);
 
+        // View project list button
+        viewProjects = document.createElement('div');
+        viewProjects.classList.add('projects-button');
+        viewProjects.classList.add('show-projects-button');
+
+        let viewProjectsButton = document.createElement('button');
+        viewProjectsButton.innerHTML = '<i class="far fa-folder"></i>';
+        viewProjects.addEventListener('click', () => {
+            projectsDiv.classList.toggle('show-projects-div');
+            backdropDiv.classList.toggle('show-backdrop');
+            newTodo.classList.toggle('hide-new-todo-button');
+        });
+
+        viewProjects.appendChild(viewProjectsButton);
+        header.appendChild(viewProjects);
+
         root.appendChild(header);
 
+        // Form div
         formDiv = document.createElement('form');
         formDiv.classList.add('form-div');
         root.appendChild(formDiv);
 
+        // Backdrop div - used to grey out background
         backdropDiv = document.createElement('div');
         backdropDiv.classList.add('backdrop');
         root.appendChild(backdropDiv);
 
+        // Todos div
         todosDiv = document.createElement('div');
         todosDiv.classList.add('todos-div');
         root.appendChild(todosDiv);
 
+        // Edit Todos div
         editTodoDiv = document.createElement('div');
         editTodoDiv.classList.add('edit-todo-div');
         root.appendChild(editTodoDiv);
 
+        // Projects view div
+        projectsDiv = document.createElement('div');
+        projectsDiv.classList.add('projects-div');
+        root.appendChild(projectsDiv);
+
     };
 
-    // Render a form to add/edit Todos
+    // Render a form to add Todos from the templateTodo
     const renderForm = () => {
         formDiv.classList.toggle('show-form-div');
         backdropDiv.classList.add('show-backdrop');
@@ -102,7 +134,7 @@ const ViewController = (Todo) => {
         submitButton.textContent = 'Add';
         formDiv.appendChild(submitButton);
 
-        // cancel button to clear form
+        // cancel button to clear and hide form
         let cancelButton = document.createElement('button');
         cancelButton.id = 'cancel-form';
         cancelButton.classList.add('cancel-button');
@@ -116,6 +148,7 @@ const ViewController = (Todo) => {
 
     };
 
+    // Clear and hide the form
     const _hideForm = () => {
         while (formDiv.firstChild) {
             formDiv.removeChild(formDiv.lastChild);
@@ -123,14 +156,17 @@ const ViewController = (Todo) => {
         formElements = [];
 
         // Show button to create form again
-        let newTodo = document.getElementById('new-todo');
         newTodo.classList.remove('hide-new-todo-button');
+
+        // Show button for project view again
+        viewProjects.classList.toggle('show-projects-button');
 
         formDiv.classList.toggle('show-form-div');
         backdropDiv.classList.remove('show-backdrop');
+
     };
 
-    // Renders an array of Todos
+    // Render an array of Todos
     const renderTodos = (todos) => {
         backdropDiv.classList.remove('show-backdrop');
 
@@ -150,7 +186,7 @@ const ViewController = (Todo) => {
             return;
         };
 
-        // Sort Todos by id
+        // Sort Todos by id descending to show latest add on top
         todos = todos.sort( (a, b) => b.id - a.id );
 
         todos.forEach(todo => {
@@ -160,7 +196,7 @@ const ViewController = (Todo) => {
 
     };
 
-    // Render a single Todo todo
+    // Render a single Todo
     const _renderTodo = (todo) => {
         // Create a div for each todo todo
         let todoDiv = document.createElement('div');
@@ -189,6 +225,9 @@ const ViewController = (Todo) => {
 
                 } else if (key === 'due') {
                     p.textContent = formatDate(new Date(todo[key]), 'dd MMM, yyyy');
+                } else if (key === 'description' && todo[key] === '') {
+                    p.textContent = 'No notes yet.'
+                    p.classList.add('todo-placeholder-text');
                 } else {
                     p.textContent = todo[key];
                 };
@@ -206,28 +245,49 @@ const ViewController = (Todo) => {
 
         };
 
+        // click on title to expand Todo
         todoTitleDiv.addEventListener('click', () => {
             todoDiv.classList.toggle('expanded-todo');
         });
         
-        //delete button
+        // delete button
         let deleteButton = document.createElement('button');
-        deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteButton.innerHTML = '<i class="far fa-trash-alt"></i>';
         deleteButton.classList.add('delete-todo');
         todoDiv.appendChild(deleteButton);
 
-        //edit button
+        // edit button
         let editButton = document.createElement('button');
-        editButton.innerHTML = '<i class="fas fa-edit"></i>';
+        editButton.innerHTML = '<i class="far fa-edit"></i>';
         editButton.classList.add('edit-todo');
         todoDiv.appendChild(editButton);
 
         return todoDiv;
     };
 
+    const renderProjects = (projectList) => {
+        while (projectsDiv.firstChild) {
+            projectsDiv.removeChild(projectsDiv.lastChild);
+        };
+
+        projectList.forEach(project => {
+            let div = document.createElement('div');
+            div.classList.add('project-div');
+
+            let p = document.createElement('p');
+            p.textContent = project;
+            div.appendChild(p);
+
+            projectsDiv.appendChild(div);
+        });
+
+    };
+
+    // Render a form to edit Todo
     const renderEditTodo = (todo) => {
         editTodoDiv.classList.toggle('show-edit-div');
         backdropDiv.classList.add('show-backdrop');
+        viewProjects.classList.toggle('show-projects-button');
 
         let title = document.createElement('p');
         title.textContent = 'On second thought...';
@@ -256,12 +316,14 @@ const ViewController = (Todo) => {
 
         });
 
+        // save edit button
         let saveEditButton = document.createElement('button');
         saveEditButton.textContent = 'Save Edit';
         saveEditButton.classList.add('save-todo-edit');
         saveEditButton.id = todo['id'];
         editTodoDiv.appendChild(saveEditButton);
         
+        // cancel edit button
         let cancelButton = document.createElement('button');
         cancelButton.innerHTML = '<i class="fas fa-times"></i>';
         cancelButton.id = 'cancel-todo-edit';
@@ -274,17 +336,20 @@ const ViewController = (Todo) => {
 
     };
 
-    // Hides the Edit Todo div;
+    // Hide the Edit Todo div
     const _hideEdit = () => {
         while (editTodoDiv.firstChild) {
             editTodoDiv.removeChild(editTodoDiv.lastChild);
         };
         editTodoDiv.classList.toggle('show-edit-div');
         backdropDiv.classList.remove('show-backdrop');
+        viewProjects.classList.toggle('show-projects-button');
+
     };
 
-    // returns the form input as a todo info todos
+    // Return form input if valid, else false
     const _getFormInput = () => {
+        
         let inputObject = {};
         formElements.forEach(element => {
             if (element.name === 'due') {
@@ -294,18 +359,47 @@ const ViewController = (Todo) => {
             }
         });
 
-        return inputObject;
+        return _verifyFormInput(inputObject);
+    };
+
+    // Verify the form input
+    const _verifyFormInput = (inputObject) => {
+
+        if (inputObject.title === '') {
+
+            alert ('Please add the name of your task!')
+            return false;
+
+        } else if (inputObject.project === '') {
+            
+            inputObject.project = 'Untitled Project';
+            return inputObject;
+
+        } else {
+            return inputObject;
+        };
+
     };
 
     // Bind methods: binds an event to a controller method
 
-    // Form submission button sends the form input as an Object
+    // Form submission button to send the form input
     const bindRequestAddTodo = (controllerAction) => {
+
         formDiv.addEventListener('submit', e => {
+
             e.preventDefault();
-            controllerAction( _getFormInput() );
-            _hideForm();
+            let inputObject = _getFormInput();
+
+            if (inputObject) {
+                controllerAction(inputObject);
+                _hideForm();
+            } else {
+                return;
+            };
+
         });
+
     };
 
     // Delete Todo buttons send the id of the Todo for deletion
@@ -314,8 +408,14 @@ const ViewController = (Todo) => {
         todosDiv.addEventListener('click', e => {
 
             if (e.target.classList.contains('fa-trash-alt')) {
-                let id = e.target.parentElement.parentElement.id;
-                controllerAction(id);
+                // confirm the delete
+                let confirmation = confirm('Are you sure you want to delete this task?');
+                if (confirmation) {
+                    let id = e.target.parentElement.parentElement.id;
+                    controllerAction(id);
+                } else {
+                    return;
+                }
             };
 
         });
@@ -336,29 +436,41 @@ const ViewController = (Todo) => {
 
     };
 
-    // Save Todo buttons send the editted Todo as an Object
+    // Save Todo buttons send the editted Todo and its id
     const bindRequestSaveTodo = (controllerAction) => {
 
         editTodoDiv.addEventListener('click', e => {
 
             if (e.target.classList.contains('save-todo-edit')) { 
+
                 let id = e.target.id;
-                controllerAction( _getFormInput(), id);
-                _hideEdit();
+                let inputObject = _getFormInput();
+
+                if (inputObject) {
+                    controllerAction(inputObject, id);
+                    _hideEdit();
+                } else {
+                    return;
+                };
+
             };
 
         });
 
     };
 
+    // Toggle Complete status of Todos
     const bindRequestCompleteTodo = (controllerAction) => {
 
         todosDiv.addEventListener('click', e => {
+
             if (e.target.classList.contains('fa-check')) {
+
                 let boolean = e.target.parentElement.getAttribute('data-complete');
                 e.target.parentElement.setAttribute('data-complete', !boolean);
                 let id = e.target.parentElement.parentElement.id;
                 controllerAction(id);
+
             }
 
         })
@@ -367,6 +479,7 @@ const ViewController = (Todo) => {
     return {
         renderInitial,
         renderTodos,
+        renderProjects,
         renderEditTodo,
 
         bindRequestAddTodo,
