@@ -59,8 +59,7 @@ const TodosModel = () => {
             return _todos;
         } else {
             let todosFiltered = _todos.filter(todo => todo[key] == value);
-            gotTodos (todosFiltered);
-            // return todosFiltered;
+            gotTodos (key, todosFiltered);
         };
     };
 
@@ -87,9 +86,20 @@ const TodosModel = () => {
     }
 
     const _saveChanges = () => {
+        _updateProjectList();
         todosChanged(_todos, _projectList);
         localStorage.setItem('todos', JSON.stringify(_todos));
         localStorage.setItem('projects', JSON.stringify(_projectList));
+    };
+
+    const _updateProjectList = () => {
+        _projectList = [];
+
+        _todos.forEach(todo => {
+            if ( !_projectList.includes(todo['project']) ) _projectList.push(todo['project']);
+        })
+
+        return _projectList;
     };
 
 

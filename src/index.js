@@ -24,6 +24,7 @@ const TodosController = () => {
         view.bindRequestEditTodo(handleRequestTodo);
         view.bindRequestSaveTodo(handleRequestEditTodo);
         view.bindRequestCompleteTodo(handleRequestCompleteTodo);
+        view.bindRequestByProject(handleRequestTodo);
 
         // Call handleTodosChanged to render all todo's in model
         handleTodosChanged(model.getTodos(), model.getProjects());
@@ -45,17 +46,17 @@ const TodosController = () => {
         model.deleteTodo(todoId);
     }
 
-    // View -> Model to get a Todo
-    const handleRequestTodo = (todoId) => {
-        model.getTodos('id', +todoId);
+    // View -> Model to get a Todo by id
+    const handleRequestTodo = (key, value) => {
+        model.getTodos(key, value);
     }
 
     // Model -> View to return requested Todo(s)
-    const handleGotTodos = (todos) => {
-        if (todos.length === 1) {
+    const handleGotTodos = (key, todos) => {
+        if (key === 'id') {
             view.renderEditTodo(todos[0]);
         } else {
-            view.renderTodos();
+            view.renderTodos(todos);
         };
     };
 
@@ -65,7 +66,8 @@ const TodosController = () => {
 
     const handleRequestCompleteTodo = (id) => {
         model.toggleTodoComplete(+id);
-    }
+    };
+
 
     return {
         startUp

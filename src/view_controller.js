@@ -6,14 +6,18 @@ const ViewController = (Todo) => {
     const templateTodo = Todo;
 
     const root = document.body;
+
     let newTodo;
     let viewProjects;
+
     let formDiv;
     let backdropDiv;
     let todosDiv;
     let editTodoDiv;
     let projectsDiv;
-    let formElements;
+
+    let formElements = [];
+    let projectList = [];
 
     // Initialize the display
     const renderInitial = () => {
@@ -40,7 +44,7 @@ const ViewController = (Todo) => {
         newButton.addEventListener('click', e => {
             renderForm();
             newTodo.classList.add('hide-new-todo-button');
-            viewProjects.classList.toggle('show-projects-button');
+            viewProjects.classList.remove('show-projects-button');
         });
 
         newTodo.appendChild(newButton);
@@ -55,7 +59,7 @@ const ViewController = (Todo) => {
         viewProjectsButton.innerHTML = '<i class="far fa-folder"></i>';
         viewProjects.addEventListener('click', () => {
             projectsDiv.classList.toggle('show-projects-div');
-            backdropDiv.classList.toggle('show-backdrop');
+            backdropDiv.classList.remove('show-backdrop');
             newTodo.classList.toggle('hide-new-todo-button');
         });
 
@@ -93,7 +97,7 @@ const ViewController = (Todo) => {
 
     // Render a form to add Todos from the templateTodo
     const renderForm = () => {
-        formDiv.classList.toggle('show-form-div');
+        formDiv.classList.add('show-form-div');
         backdropDiv.classList.add('show-backdrop');
 
         let title = document.createElement('p');
@@ -159,9 +163,9 @@ const ViewController = (Todo) => {
         newTodo.classList.remove('hide-new-todo-button');
 
         // Show button for project view again
-        viewProjects.classList.toggle('show-projects-button');
+        viewProjects.classList.add('show-projects-button');
 
-        formDiv.classList.toggle('show-form-div');
+        formDiv.classList.remove('show-form-div');
         backdropDiv.classList.remove('show-backdrop');
 
     };
@@ -169,8 +173,8 @@ const ViewController = (Todo) => {
     // Render an array of Todos
     const renderTodos = (todos) => {
         backdropDiv.classList.remove('show-backdrop');
-
-        formElements = [];
+        newTodo.classList.remove('hide-new-todo-button');
+        projectsDiv.classList.remove('show-projects-div');
 
         // Delete all elements from the Todos div
         while (todosDiv.firstChild) {
@@ -265,18 +269,32 @@ const ViewController = (Todo) => {
         return todoDiv;
     };
 
-    const renderProjects = (projectList) => {
+    const renderProjects = (projects) => {
         while (projectsDiv.firstChild) {
             projectsDiv.removeChild(projectsDiv.lastChild);
         };
 
-        projectList.forEach(project => {
+        let div = document.createElement('div');
+        div.classList.add('project-div');
+
+        let p = document.createElement('p');
+        p.textContent = 'View All Todos';
+        div.appendChild(p);
+
+        projectsDiv.appendChild(div);
+
+        projectList = [];
+
+        projects.forEach(project => {
             let div = document.createElement('div');
             div.classList.add('project-div');
 
             let p = document.createElement('p');
             p.textContent = project;
+            p.classList.add('project-name');
             div.appendChild(p);
+            
+            projectList.push(p);
 
             projectsDiv.appendChild(div);
         });
@@ -285,9 +303,9 @@ const ViewController = (Todo) => {
 
     // Render a form to edit Todo
     const renderEditTodo = (todo) => {
-        editTodoDiv.classList.toggle('show-edit-div');
+        editTodoDiv.classList.add('show-edit-div');
         backdropDiv.classList.add('show-backdrop');
-        viewProjects.classList.toggle('show-projects-button');
+        viewProjects.classList.remove('show-projects-button');
 
         let title = document.createElement('p');
         title.textContent = 'On second thought...';
@@ -341,9 +359,14 @@ const ViewController = (Todo) => {
         while (editTodoDiv.firstChild) {
             editTodoDiv.removeChild(editTodoDiv.lastChild);
         };
-        editTodoDiv.classList.toggle('show-edit-div');
+
+        formElements = [];
+
+        editTodoDiv.classList.remove('show-edit-div');
         backdropDiv.classList.remove('show-backdrop');
-        viewProjects.classList.toggle('show-projects-button');
+        viewProjects.classList.add('show-projects-button');
+        let newTodo = document.getElementsByClassName('new-todo')[0];
+        newTodo.classList.remove('hide-new-todo-button');
 
     };
 
@@ -429,7 +452,7 @@ const ViewController = (Todo) => {
 
             if (e.target.classList.contains('fa-edit')) {
                 let id = e.target.parentElement.parentElement.id;
-                controllerAction(id);
+                controllerAction('id', +id);
             };
 
         });
@@ -474,7 +497,20 @@ const ViewController = (Todo) => {
             }
 
         })
-    }
+    };
+
+    const bindRequestByProject = (controllerAction) => {
+        projectsDiv.addEventListener('click', e => {
+            
+            if (e.target.classList.contains('project-name')) {
+                controllerAction('project', e.target.textContent);
+            } else {
+                controllerAction();
+            }
+
+        });
+    };
+
 
     return {
         renderInitial,
@@ -486,7 +522,8 @@ const ViewController = (Todo) => {
         bindRequestDeleteTodo,
         bindRequestEditTodo,
         bindRequestSaveTodo,
-        bindRequestCompleteTodo
+        bindRequestCompleteTodo,
+        bindRequestByProject
     }
 };
 

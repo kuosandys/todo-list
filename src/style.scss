@@ -123,6 +123,10 @@ header {
 }
 
 //-----Projects div
+.projects-div {
+    display: none;
+}
+
 .show-projects-div {
     display: flex;
     flex-direction: column;
@@ -143,8 +147,7 @@ header {
     padding: $font-size-2;
 
     p {
-        text-transform: uppercase;
-        font-size: $font-size-2;
+        font-size: $font-size-3;
         text-decoration: underline;
     }
 }
@@ -303,7 +306,6 @@ header {
         margin: $font-size-1 0 0 ($font-size-6 * 1.5);
         padding-top: $font-size-1;
         border-top: 1px solid $neutral-5;
-        text-transform: uppercase;
     }
 
     // Edit and Delete buttons
