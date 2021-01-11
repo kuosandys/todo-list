@@ -157,22 +157,57 @@ header {
     position: absolute;
     top: 80px;
     width: 100%;
+    min-width: 300px;
     height: auto;
     background-color: $neutral-5;
     z-index: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    * {
+        margin: 0;
+    }
 
     .no-todo-placeholder-text {
         text-align: center;
     }
 }
 
+.todos-label {
+    font-size: $font-size-2;
+    text-transform: uppercase;
+    margin: $font-size-0;
+}
+
+.todos-completed-div {
+    margin-top: $font-size-0 * 2;
+    position: relative;
+}
+
+.hide-todos-completed-div {
+    display: none;
+}
+
+.clear-completed-todos {
+    position: absolute;
+    right: $font-size-0;
+    top: $font-size-0;
+    text-transform: uppercase;
+    text-decoration: underline;
+    margin: 0;
+}
+
+
 //----- each Todo
 .todo-div {
     position: relative;
     font-size: $font-size-2;
     height: $font-size-6 * 2;
-    width: auto;
-    min-width: 300px;
+    // width: auto;
+    // min-width: 300px;
+    flex-grow: 1;
 
     border: 1px solid $neutral-4;
     border-radius: $border-radius;

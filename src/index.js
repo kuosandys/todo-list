@@ -25,6 +25,7 @@ const TodosController = () => {
         view.bindRequestSaveTodo(handleRequestEditTodo);
         view.bindRequestCompleteTodo(handleRequestCompleteTodo);
         view.bindRequestByProject(handleRequestTodo);
+        view.bindRequestClearCompleted(handleDeleteTodo);
 
         // Call handleTodosChanged to render all todo's in model
         handleTodosChanged(model.getTodos(), model.getProjects());

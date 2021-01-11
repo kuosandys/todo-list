@@ -181,22 +181,62 @@ const ViewController = (Todo) => {
             todosDiv.removeChild(todosDiv.lastChild);
         };
 
-        // If there are no Todo's, display a message
-        if (!todos || todos.length === 0) {
-            let p = document.createElement('p');
-            p.classList.add('no-todo-placeholder-text');
-            p.textContent = 'Nothing to do yet...';
-            todosDiv.appendChild(p)
-            return;
-        };
+        // Create a separate div to display completed Todos
+        let todosCompletedDiv = document.createElement('div');
+        todosCompletedDiv.classList.add('todos-completed-div');
+
+        // 'Tasks' label for subsection
+        let taskLabel = document.createElement('p');
+        taskLabel.classList.add('todos-label');
+        let taskCount = 0;
+        todosDiv.appendChild(taskLabel);
+
+        // 'Completed' label for section
+        let completedLabel = document.createElement('p');
+        completedLabel.classList.add('todos-label');
+        let completedCount = 0;
+        todosCompletedDiv.appendChild(completedLabel);
+
+        // Clear completed Todos button
+        let clearCompletedTodos = document.createElement('p');
+        clearCompletedTodos.textContent = 'Clear';
+        clearCompletedTodos.classList.add('clear-completed-todos');
+        todosCompletedDiv.appendChild(clearCompletedTodos);
 
         // Sort Todos by id descending to show latest add on top
         todos = todos.sort( (a, b) => b.id - a.id );
 
         todos.forEach(todo => {
             let todoDiv = _renderTodo(todo);
-            todosDiv.appendChild(todoDiv);
-        })
+
+            if (todo.complete === true) {
+                todosCompletedDiv.appendChild(todoDiv);
+                completedCount++;
+            } else {
+                todosDiv.appendChild(todoDiv);
+                taskCount++;
+            };
+
+        });
+
+        taskLabel.textContent = `Tasks (${taskCount})`;
+        completedLabel.textContent = `Completed (${completedCount})`;
+
+        // Display placeholder text if no Todos
+        if (taskCount === 0) {
+            let p = document.createElement('p');
+            p.classList.add('no-todo-placeholder-text');
+            p.textContent = 'Nothing to do yet...';
+            todosDiv.appendChild(p)
+        }
+
+        // Hide completed Todos div if empty
+        if (completedCount === 0) {
+            todosCompletedDiv.classList.add('hide-todos-completed-div');
+
+        }
+
+        todosDiv.appendChild(todosCompletedDiv);
 
     };
 
@@ -404,6 +444,17 @@ const ViewController = (Todo) => {
 
     };
 
+    const _getCompletedIds = () => {
+        let ids = [];
+
+        let completedTodos = Array.from(document.getElementsByClassName('completed-todo'));
+        completedTodos.forEach(todo => {
+            ids.push(todo.id);
+        });
+        
+        return ids;
+    }
+
     // Bind methods: binds an event to a controller method
 
     // Form submission button to send the form input
@@ -511,6 +562,17 @@ const ViewController = (Todo) => {
         });
     };
 
+    const bindRequestClearCompleted = (controllerAction) => {
+        todosDiv.addEventListener('click', e => {
+
+            if (e.target.classList.contains('clear-completed-todos')) {
+
+                _getCompletedIds().forEach(id => controllerAction(id));
+                
+            };
+        });
+    };
+
 
     return {
         renderInitial,
@@ -523,7 +585,8 @@ const ViewController = (Todo) => {
         bindRequestEditTodo,
         bindRequestSaveTodo,
         bindRequestCompleteTodo,
-        bindRequestByProject
+        bindRequestByProject,
+        bindRequestClearCompleted,
     }
 };
 
