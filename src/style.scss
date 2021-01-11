@@ -1,0 +1,383 @@
+$font-stack: 'Nunito', 'Arial', sans-serif;
+$font-size-0: 12px;
+$font-size-1: 14px;
+$font-size-2: 16px;
+$font-size-3: 20px;
+$font-size-4: 24px;
+$font-size-5: 30px;
+$font-size-6: 36px;
+$font-size-7: 48px;
+
+$neutral-6: hsl(220, 7, 97);
+$neutral-5: hsl(210,14,90);
+$neutral-4: hsl(220, 6, 72);
+$neutral-3: hsl(223,3,52);
+$neutral-2: hsl(210, 5, 33);
+$neutral-1: hsl(206, 6, 23);
+$neutral-0: hsl(180,1,13);
+
+$border-radius: 7px;
+
+* {
+    box-sizing: border-box;
+    line-height: 1.2;
+}
+
+html {
+    font-family: $font-stack;
+    background-color: $neutral-5;
+}
+
+body {
+}
+
+// Reset button style
+button {
+    border: none;
+}
+
+//----- Header
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    min-width: 300px;
+    height: 80px;
+    background-color: $neutral-6;
+    border-bottom: 1px solid $neutral-4;
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $font-size-0;
+}
+
+.title {
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.6;
+
+    h1 {
+        color: $neutral-0;
+        font-size: $font-size-5;
+        font-weight: 600;
+    }
+
+    h2 {
+        color: $neutral-0;
+        font-size: $font-size-2;
+        font-style: italic;
+        font-weight: 400;
+        margin-left: 4px;
+    }
+}
+
+// Square buttons
+@mixin square-button {
+    height: $font-size-7;
+    width: $font-size-7;
+    border: 1px solid $neutral-2;
+    border-radius: $border-radius;
+    background-color: $neutral-2;
+    color: $neutral-6;
+    font-size: $font-size-3;
+    line-height: 1;
+    padding: 0;
+}
+
+//----- + button
+#new-todo {
+
+    button {
+        @include square-button;
+    }
+}
+
+//--Add new Todo button: toggle class on click
+.hide-new-todo-button {
+    display: none;
+}
+
+//----- main div with Todos
+.todos-div {
+    position: absolute;
+    top: 80px;
+    width: 100%;
+    height: auto;
+    background-color: $neutral-5;
+    z-index: 0;
+
+    .no-todo-placeholder-text {
+        text-align: center;
+    }
+}
+
+//----- each Todo
+.todo-div {
+    position: relative;
+    font-size: $font-size-2;
+    height: $font-size-6 * 2;
+    width: auto;
+    min-width: 300px;
+
+    border: 1px solid $neutral-4;
+    border-radius: $border-radius;
+    padding: $font-size-2 $font-size-4 $font-size-2 $font-size-2;
+    background-color: $neutral-6;
+
+    margin: $font-size-0;
+
+    display: flex;
+    flex-direction: column;
+
+    //-----Todo due date
+    .todo-due {
+        margin: 0 0 0 $font-size-6 * 1.5;
+        font-size: $font-size-0;
+        text-transform: uppercase;
+        color: $neutral-3;
+    }
+
+    // Hide initially
+    .todo-description {
+        display: none;
+    }
+
+    .todo-project {
+        display: none;
+    }
+
+    .delete-todo {
+        display: none;
+    }
+    
+    .edit-todo {
+        display: none;
+    }
+}
+
+//-----Todo title
+.todo-title-div {
+    margin: 0 0 0 $font-size-6 * 1.5;
+    display: flex;
+    align-items: stretch;
+    min-height: $font-size-4;
+    
+    .todo-title {
+        font-size: $font-size-3;
+        margin: 0;
+        align-items: stretch;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+//-----Todo completion checkbox
+.todo-complete {
+    height: $font-size-6;
+    width: $font-size-6;
+    margin: 0;
+
+    position: absolute;
+    top: $font-size-6 / 2;
+    left: $font-size-6 / 2;
+
+    border: 2px solid $neutral-4;
+    border-radius: $font-size-6;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i::before {
+        height: $font-size-6;
+        width: $font-size-6;
+        font-size: $font-size-3;
+        color: $neutral-4;
+    }
+}
+
+//-----Todo: completed state
+.completed-todo {
+    .todo-title {
+        text-decoration: line-through;
+        color: $neutral-4;
+    }
+
+    .todo-due {
+        color: $neutral-4;
+    }
+}
+
+//-----Todo completion checkbox: completed state
+.completed {
+    background-color: $neutral-4;
+    border: 2px solid $neutral-4;
+}
+
+//-----Todo: expanded view
+.expanded-todo {
+    height: auto;
+    min-height: $font-size-6 * 4.75;
+    max-height: $font-size-6 * 6;
+    background-color: $neutral-6;
+    border: 1px solid $neutral-4;
+    border-radius: $border-radius;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+
+    .todo-title {
+        overflow-x: scroll;
+    }
+
+    .todo-description {
+        order: 2;
+        display: initial;
+        margin: $font-size-0/2 0 0 $font-size-6 * 1.5;
+        overflow-y: scroll;
+    }
+
+    .todo-project {
+        order: 1;
+        display: initial;
+        margin: $font-size-1 0 0 ($font-size-6 * 1.5);
+        padding-top: $font-size-1;
+        border-top: 1px solid $neutral-5;
+        text-transform: uppercase;
+    }
+
+    // Edit and Delete buttons
+    button {
+        font-size: $font-size-4;
+        color: $neutral-4;
+        background-color: transparent;
+    }
+
+    .delete-todo {
+        display: initial;
+        position: absolute;
+        top: $font-size-6 * 2 + $font-size-1 * 2 + $font-size-4;
+        left: $font-size-3;
+    }
+
+    .edit-todo {
+        display: initial;
+        position: absolute;
+        top: $font-size-6 * 2 + $font-size-1;
+        left: $font-size-3;
+    }
+}
+
+//--Form to add new Todo
+.form-div {
+    display: none;
+}
+
+//-----Pop-up form
+@mixin form-format {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+    max-height: $font-size-6 * 10;
+    height: auto;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-top: 80px;
+    z-index: 10;
+
+    background-color: $neutral-5;
+    padding: $font-size-2;
+
+    input {
+        width: 80%;
+        height: $font-size-5;
+        font-size: $font-size-2;
+        margin: 0 auto $font-size-0;
+        border: 1px solid $neutral-4;
+        border-radius: $border-radius;
+        padding: 0 $font-size-0 / 2;
+
+        ::placeholder {
+            font-style: italic;
+        }
+    }
+
+    p {
+        font-size: $font-size-3;
+        margin: 0 auto $font-size-0;
+    }
+
+    button {
+        text-transform: uppercase;
+        padding: $font-size-0 $font-size-0 * 2;
+        font-size: $font-size-2;
+        font-weight: 600;
+        border: 1px solid $neutral-2;
+        border-radius: $border-radius;
+        background-color: $neutral-2;
+        color: $neutral-6;
+        align-items: center;
+    }
+
+    .cancel-button {
+        @include square-button;
+        position: absolute;
+        top: -($font-size-7 + $font-size-2);
+        right: $font-size-0;
+        background-color: $neutral-3;
+        border-color: $neutral-3;
+    }
+}
+
+.show-form-div {
+    @include form-format;
+    
+}
+
+//-----Backdrop to disable background on Add Todo and Edit Todo modes
+.backdrop {
+    display: none;
+}
+
+.show-backdrop {
+    display: initial;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 80px;
+    background-color: $neutral-6;
+    opacity: 0.6;
+    z-index: 9;
+}
+
+
+//-----Edit Todos Div
+.edit-todo-div {
+    display: none;
+}
+
+.show-edit-div {
+    @include form-format;
+
+}
+
+
+//-----Media queries
+
+//-----medium size screen
+@media screen and (min-width: 600px) {
+
+};
+
+//-----large size screen
+@media screen and (min-width: 790px) {
+
+};

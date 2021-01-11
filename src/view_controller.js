@@ -1,49 +1,72 @@
 import { format as formatDate} from 'date-fns';
-import { Todo } from './todos_model.js';
+import { parse as parseDate } from 'date-fns';
 
 // Factory function that creates an object to interact with the DOM
-const ViewController = () => {
+const ViewController = (Todo) => {
+    // Create an empty Todo as a template
+    const templateTodo = Todo;
+
     const root = document.body;
     let formDiv;
+    let backdropDiv;
     let todosDiv;
     let editTodoDiv;
-    let formElements = [];
+    let formElements;
 
     // Initialize the display
     const renderInitial = () => {
         let header = document.createElement('header');
+
+        let titleDiv = document.createElement('div');
+        titleDiv.classList.add('title');
         let title = document.createElement('h1');
-        title.textContent = 'Todo List!'
-        header.appendChild(title);
-        root.appendChild(header);
+        title.textContent = 'Things'
+        let description = document.createElement('h2');
+        description.textContent = 'to do';
+        titleDiv.appendChild(title);
+        titleDiv.appendChild(description);
+        header.appendChild(titleDiv);
 
         let newTodo = document.createElement('div');
         newTodo.id = 'new-todo';
         let newButton = document.createElement('button');
-        newButton.textContent = 'New Todo';
+        newButton.innerHTML = '<i class="fas fa-plus"></i>';
         newButton.addEventListener('click', e => {
             e.preventDefault();
             renderForm();
-            newTodo.style.display = 'none';
+            newTodo.classList.add('hide-new-todo-button');
         });
         newTodo.appendChild(newButton);
-        root.appendChild(newTodo);
+        header.appendChild(newTodo);
+
+        root.appendChild(header);
 
         formDiv = document.createElement('form');
+        formDiv.classList.add('form-div');
         root.appendChild(formDiv);
 
+        backdropDiv = document.createElement('div');
+        backdropDiv.classList.add('backdrop');
+        root.appendChild(backdropDiv);
+
         todosDiv = document.createElement('div');
+        todosDiv.classList.add('todos-div');
         root.appendChild(todosDiv);
 
         editTodoDiv = document.createElement('div');
+        editTodoDiv.classList.add('edit-todo-div');
         root.appendChild(editTodoDiv);
 
     };
 
     // Render a form to add/edit Todos
     const renderForm = () => {
-        // Create an empty Todo as a template
-        let templateTodo = Todo();
+        formDiv.classList.toggle('show-form-div');
+        backdropDiv.classList.add('show-backdrop');
+
+        let title = document.createElement('p');
+        title.textContent = 'Remember to...';
+        formDiv.appendChild(title);
         
         Object.keys(templateTodo).forEach(key => {
 
@@ -59,71 +82,32 @@ const ViewController = () => {
             } else {
                 newInput.type = 'text';
                 newInput.value = (key === 'project') ? 'New Project' : '';
+                newInput.placeholder = (key === 'title')
+                    ? 'Task e.g. go to Diagon Alley'
+                    : (key === 'description')
+                        ? 'Notes e.g. don\'t use floo powder' : '';
             };
 
             newInput.name = key;
 
             formDiv.appendChild(newInput);
-            formElements.push(newInput)
+            formElements.push(newInput);
 
         });
 
-        // formElements.forEach(element => {
-
-        //     if (element.name === 'due') {
-        //         element.value = formatDate(new Date(), 'yyyy-MM-dd');
-        //     } else if (element.name === 'project') {
-        //         element.value = 'Default Project';
-        //     } else {
-        //         element.value = '';
-        //     };
-
-        //     formDiv.appendChild(element)
-        // });
-
-        // formElements.forEach(element => formDiv.appendChild(element));
-
-        // // todo title
-        // let todoTitle = document.createElement('input');
-        // todoTitle.type = 'text';
-        // todoTitle.name = 'title';
-
-        // // todo description
-        // let todoDescription = document.createElement('input');
-        // todoDescription.type = 'text';
-        // todoDescription.name = 'description';
-
-        // // todo due date
-        // let todoDue = document.createElement('input');
-        // todoDue.type = 'date';
-        // todoDue.name = 'due';
-
-        // // todo notes
-        // let todoNotes = document.createElement('input');
-        // todoNotes.type = 'text';
-        // todoNotes.name = 'notes';
-
-        // // todo project
-        // let todoProject = document.createElement('input');
-        // todoProject.type = 'text';
-        // todoProject.name = 'project';
-
-        // formElements = [
-        //     todoTitle, todoDescription, todoDue, todoNotes,
-        //     todoProject
-        // ];
-
         // submit button to add new todo
         let submitButton = document.createElement('button');
+        submitButton.classList.add('submit-form');
         submitButton.type = 'submit';
         submitButton.textContent = 'Add';
         formDiv.appendChild(submitButton);
 
         // cancel button to clear form
         let cancelButton = document.createElement('button');
-        cancelButton.textContent = 'Cancel';
+        cancelButton.id = 'cancel-form';
+        cancelButton.classList.add('cancel-button');
+        cancelButton.innerHTML = '<i class="fas fa-times"></i>';
         cancelButton.type = 'reset';
-        cancelButton.id = 'cancel';
         cancelButton.addEventListener('click', e => {
             e.preventDefault();
             _hideForm();
@@ -139,29 +123,18 @@ const ViewController = () => {
         formElements = [];
 
         // Show button to create form again
-        let newTodoDiv = document.getElementById('new-todo');
-        newTodoDiv.style.display = 'initial';
-    };
+        let newTodo = document.getElementById('new-todo');
+        newTodo.classList.remove('hide-new-todo-button');
 
-    // const _resetForm = () => {
-    //     // formElements = [title, description, due, notes, project]
-    //     formElements.forEach(element => {
-    //         if (element.name === 'due') {
-    //             element.value = formatDate(new Date(), 'yyyy-MM-dd');
-    //         } else if (element.name === 'project') {
-    //             element.value = 'Default Project';
-    //         } else {
-    //             element.value = '';
-    //         };
-    //     });
-    // };
+        formDiv.classList.toggle('show-form-div');
+        backdropDiv.classList.remove('show-backdrop');
+    };
 
     // Renders an array of Todos
     const renderTodos = (todos) => {
-        // Delete all elements from the editTodoDiv;
-        while (editTodoDiv.firstChild) {
-            editTodoDiv.removeChild(editTodoDiv.lastChild);
-        };
+        backdropDiv.classList.remove('show-backdrop');
+
+        formElements = [];
 
         // Delete all elements from the Todos div
         while (todosDiv.firstChild) {
@@ -171,12 +144,14 @@ const ViewController = () => {
         // If there are no Todo's, display a message
         if (!todos || todos.length === 0) {
             let p = document.createElement('p');
-            todosDiv.append(p, 'nothing to do...');
+            p.classList.add('no-todo-placeholder-text');
+            p.textContent = 'Nothing to do yet...';
+            todosDiv.appendChild(p)
             return;
         };
 
         // Sort Todos by id
-        todos = todos.sort( (a, b) => a.id - b.id );
+        todos = todos.sort( (a, b) => b.id - a.id );
 
         todos.forEach(todo => {
             let todoDiv = _renderTodo(todo);
@@ -189,70 +164,74 @@ const ViewController = () => {
     const _renderTodo = (todo) => {
         // Create a div for each todo todo
         let todoDiv = document.createElement('div');
+        todoDiv.classList.add('todo-div');
 
-        let todoInfoDiv = document.createElement('div');
+        let todoTitleDiv = document.createElement('div');
+        todoTitleDiv.classList.add('todo-title-div');
 
         // Iterate through the keys of the todo
         for (let key in todo) {
 
             if (key === 'id') {
                 todoDiv.id = todo[key];
-            } else if (key === 'complete') {
-                let checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.className = key;
-                checkbox.checked = todo[key];
-                todoInfoDiv.appendChild(checkbox)
             } else if (todo.hasOwnProperty(key)) {
+
                 let p = document.createElement('p');
-                p.textContent = todo[key];
-                p.className = key;
-                todoInfoDiv.appendChild(p);
+
+                if (key === 'complete') {
+                    p.innerHTML = '<i class="fas fa-check"></i>';
+                    p.setAttribute('data-complete', todo[key]);
+
+                    if (todo[key] === true) {
+                        p.classList.add('completed');
+                        todoDiv.classList.add('completed-todo');
+                    };
+
+                } else if (key === 'due') {
+                    p.textContent = formatDate(new Date(todo[key]), 'dd MMM, yyyy');
+                } else {
+                    p.textContent = todo[key];
+                };
+
+                p.classList.add(`todo-${key}`);
+
+                if (key === 'title') {
+                    todoTitleDiv.appendChild(p);
+                    todoDiv.appendChild(todoTitleDiv);
+                } else {
+                    todoDiv.appendChild(p);
+                };
+
             };
 
         };
 
-        todoDiv.appendChild(todoInfoDiv);
-
+        todoTitleDiv.addEventListener('click', () => {
+            todoDiv.classList.toggle('expanded-todo');
+        });
+        
         //delete button
         let deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.className = 'delete-todo';
+        deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteButton.classList.add('delete-todo');
         todoDiv.appendChild(deleteButton);
 
         //edit button
         let editButton = document.createElement('button');
-        editButton.textContent = 'Edit';
-        editButton.className = 'edit-todo';
+        editButton.innerHTML = '<i class="fas fa-edit"></i>';
+        editButton.classList.add('edit-todo');
         todoDiv.appendChild(editButton);
 
         return todoDiv;
     };
 
     const renderEditTodo = (todo) => {
-        // let todoInfoDiv = document.createElement('div');
-        // todoInfoDiv.id = 'edit-todo-info';
+        editTodoDiv.classList.toggle('show-edit-div');
+        backdropDiv.classList.add('show-backdrop');
 
-        // // Iterate through the keys of the todo
-        // for (let key in todo) {
-
-        //     if (key === 'id') {
-        //         continue;
-        //     } else if (key === 'complete') {
-        //         let checkbox = document.createElement('input');
-        //         checkbox.type = 'checkbox';
-        //         checkbox.className = key;
-        //         checkbox.checked = todo[key];
-        //         todoInfoDiv.appendChild(checkbox)
-        //     } else if (todo.hasOwnProperty(key)) {
-        //         let p = document.createElement('p');
-        //         p.textContent = todo[key];
-        //         p.className = key;
-        //         p.contentEditable = true;
-        //         todoInfoDiv.appendChild(p);
-        //     };
-
-        // };
+        let title = document.createElement('p');
+        title.textContent = 'On second thought...';
+        editTodoDiv.appendChild(title);
 
         Object.keys(todo).forEach(key => {
 
@@ -264,52 +243,59 @@ const ViewController = () => {
 
             if (key === 'due') {
                 newInput.type = 'date';
+                newInput.value = formatDate(new Date(todo[key]), 'yyyy-MM-dd');
             } else {
                 newInput.type = 'text';
+                newInput.value = todo[key];
             };
 
             newInput.name = key;
-            newInput.value = todo[key];
             formElements.push(newInput);
 
             editTodoDiv.appendChild(newInput);
 
         });
 
-        // editTodoDiv.appendChild(todoInfoDiv);
-
-
         let saveEditButton = document.createElement('button');
         saveEditButton.textContent = 'Save Edit';
-        saveEditButton.className = 'save-todo-edit';
+        saveEditButton.classList.add('save-todo-edit');
         saveEditButton.id = todo['id'];
         editTodoDiv.appendChild(saveEditButton);
+        
+        let cancelButton = document.createElement('button');
+        cancelButton.innerHTML = '<i class="fas fa-times"></i>';
+        cancelButton.id = 'cancel-todo-edit';
+        cancelButton.classList.add('cancel-button');
+        cancelButton.addEventListener('click', e => {
+            e.preventDefault();
+            _hideEdit();
+        });
+        editTodoDiv.appendChild(cancelButton);
+
+    };
+
+    // Hides the Edit Todo div;
+    const _hideEdit = () => {
+        while (editTodoDiv.firstChild) {
+            editTodoDiv.removeChild(editTodoDiv.lastChild);
+        };
+        editTodoDiv.classList.toggle('show-edit-div');
+        backdropDiv.classList.remove('show-backdrop');
     };
 
     // returns the form input as a todo info todos
     const _getFormInput = () => {
         let inputObject = {};
         formElements.forEach(element => {
-            inputObject[element.name] = element.value;
+            if (element.name === 'due') {
+                inputObject[element.name] = element.valueAsDate;
+            } else {
+                inputObject[element.name] = element.value;
+            }
         });
 
         return inputObject;
     };
-
-    // const _getTodoEdits = () => {
-    //     let editsObject = {};
-    //     let editInfo = Array.from( document.getElementById('edit-todo-info').childNodes );
-    //     editInfo.forEach(element => {
-    //         if (element.type == 'checkbox') {
-    //             editsObject[element.className] = element.checked;
-    //         } else {
-    //             editsObject[element.className] = element.textContent;
-    //         }
-    //     });
-
-    //     console.log(editsObject)
-    //     return editsObject;
-    // };
 
     // Bind methods: binds an event to a controller method
 
@@ -327,8 +313,8 @@ const ViewController = () => {
 
         todosDiv.addEventListener('click', e => {
 
-            if (e.target.className === 'delete-todo') {
-                let id = e.target.parentElement.id;
+            if (e.target.classList.contains('fa-trash-alt')) {
+                let id = e.target.parentElement.parentElement.id;
                 controllerAction(id);
             };
 
@@ -341,8 +327,8 @@ const ViewController = () => {
 
         todosDiv.addEventListener('click', e => {
 
-            if (e.target.className === 'edit-todo') {
-                let id = e.target.parentElement.id;
+            if (e.target.classList.contains('fa-edit')) {
+                let id = e.target.parentElement.parentElement.id;
                 controllerAction(id);
             };
 
@@ -355,9 +341,10 @@ const ViewController = () => {
 
         editTodoDiv.addEventListener('click', e => {
 
-            if (e.target.className === 'save-todo-edit') { 
+            if (e.target.classList.contains('save-todo-edit')) { 
                 let id = e.target.id;
                 controllerAction( _getFormInput(), id);
+                _hideEdit();
             };
 
         });
@@ -367,9 +354,9 @@ const ViewController = () => {
     const bindRequestCompleteTodo = (controllerAction) => {
 
         todosDiv.addEventListener('click', e => {
-
-            if (e.target.className === 'complete') {
-                e.target.value = !e.target.value
+            if (e.target.classList.contains('fa-check')) {
+                let boolean = e.target.parentElement.getAttribute('data-complete');
+                e.target.parentElement.setAttribute('data-complete', !boolean);
                 let id = e.target.parentElement.parentElement.id;
                 controllerAction(id);
             }

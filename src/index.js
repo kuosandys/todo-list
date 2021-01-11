@@ -1,11 +1,13 @@
-import { TodosModel } from './todos_model.js';
+import 'normalize.css';
+import './style.scss';
+
+import { TodosModel, Todo } from './todos_model';
 import { ViewController } from './view_controller.js';
 
 // Factory Function that creates the controller object with a single API method: startUp
 const TodosController = () => {
-
     const model = TodosModel();
-    const view = ViewController();
+    const view = ViewController( Todo() );
 
     // Initialize app
     const startUp = () => {
@@ -51,7 +53,6 @@ const TodosController = () => {
     const handleGotTodos = (todos) => {
         if (todos.length === 1) {
             view.renderEditTodo(todos[0]);
-            view.bindRequestSaveTodo(handleRequestEditTodo);
         } else {
             view.renderTodos();
         };

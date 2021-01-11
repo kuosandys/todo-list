@@ -2,7 +2,15 @@
 const TodosModel = () => {
     let _todos = JSON.parse(localStorage.getItem('todos')) || [];
     let _projectList = JSON.parse(localStorage.getItem('projects')) || [];
-    let todosCount = _todos.length;
+
+    let todosCount = (() => {
+        let max = 1;
+        _todos.forEach(todo => {
+            max = (todo.id > max) ? todo.id : max;
+        });
+        return max + 1;
+    })();
+
     let todosChanged;
     let gotTodos;
 
@@ -12,7 +20,6 @@ const TodosModel = () => {
             infoObject['title'],
             infoObject['description'],
             infoObject['due'],
-            infoObject['notes'],
             infoObject['project'],
             id || todosCount++
             );
@@ -52,7 +59,6 @@ const TodosModel = () => {
             return _todos;
         } else {
             let todosFiltered = _todos.filter(todo => todo[key] == value);
-            console.log(todosFiltered)
             gotTodos (todosFiltered);
             // return todosFiltered;
         };
@@ -96,14 +102,13 @@ const TodosModel = () => {
 };
 
 // Function factory to create Todo objects
-const Todo = (title, description, due, notes, project, id) => {
+const Todo = (title, description, due, project, id) => {
     let complete = false;
 
     return {
         title,
         description,
         due,
-        notes,
         complete,
         project,
         id
