@@ -51,10 +51,6 @@ html {
 
 body {
     margin: 0;
-    // This works with vieport-fit in index.html to keep display
-    // inside of notch on iphone
-    padding: env(safe-area-inset-top) env(safe-area-inset-right)
-    env(safe-area-inset-bottom) env(safe-area-inset-left);
     background-color: $neutral-5;
     -webkit-text-size-adjust: none;
 }
@@ -200,11 +196,11 @@ header {
 
     .project-div {
         cursor: pointer;
-        margin: 0 auto $font-size-0;
+        margin: 0 auto $font-size-2;
 
         p {
             color: $primary-2;
-            font-size: $font-size-2;
+            font-size: $font-size-3;
             text-decoration: underline;
         }
 
@@ -215,7 +211,7 @@ header {
         letter-spacing: -0.02em;
 
         font-size: $font-size-3;
-        margin: 0 auto $font-size-1;
+        margin: 0 auto $font-size-3;
 
     }
 
@@ -362,7 +358,7 @@ header {
     top: $font-size-6 / 2;
     left: $font-size-6 / 2;
 
-    border: 3px solid $primary-5;
+    border: 3px solid $primary-6;
     border-radius: $font-size-6;
 
     display: flex;
@@ -458,9 +454,9 @@ header {
         display: initial;
         position: absolute;
         top: $font-size-6 * 3 + $font-size-3;
-        left: $font-size-3;
-        height: $font-size-5;
-        width: $font-size-5;
+        left: $font-size-0 * 1.5;
+        height: $font-size-6;
+        width: $font-size-6;
         border-radius: $border-radius;
 
         i::before {
@@ -473,10 +469,10 @@ header {
     .edit-todo {
         display: initial;
         position: absolute;
-        top: $font-size-6 * 2 + $font-size-0;
-        left: $font-size-3;
-        height: $font-size-5;
-        width: $font-size-5;
+        top: $font-size-6 * 2 + $font-size-0/4;
+        left: $font-size-0 * 1.5;
+        height: $font-size-6;
+        width: $font-size-6;
         border-radius: $border-radius;
 
         i::before {
@@ -607,8 +603,7 @@ header {
 //-----Media queries
 
 //-----medium size screen
-@media screen and (min-width: 600px) {
-
+@media screen and (min-width: 480px) {
 };
 
 //-----large size screen
