@@ -16,7 +16,27 @@ $neutral-2: hsl(210, 5%, 33%);
 $neutral-1: hsl(206, 6%, 23%);
 $neutral-0: hsl(180, 1%, 13%);
 
+$primary-7: hsl(185, 22%, 90%);
+$primary-6: hsl(180, 22%, 83%);
+$primary-5: hsl(183, 34%, 75%);
+$primary-4: hsl(183, 45%, 59%);
+$primary-3: hsl(183, 65%, 38%);
+$primary-2: hsl(183, 73%, 28%);
+$primary-1: hsl(192, 61%, 19%);
+
+
+
 $border-radius: 7px;
+
+// $xs-shadow: 0 1px 3px hsla(0, 0%, 20%);
+$xs-shadow: 0 1px 2px hsla(0, 0%, 0%, .2);
+$xs-shadow-neg: 0 -2px 0 hsla(0, 0%, 0%, .1);
+$s-shadow: 0 2px 4px hsla(0, 0%, 0%, .2);
+$m-shadow: 0 3px 6px hsla(0, 0%, 0%, .2);
+$l-shadow: 0 10px 20px hsla(0, 0%, 0%, .2);
+$inset-shadow-s: inset 0 1px 1px hsla(0, 0%, 0%, 0.1);
+$inset-shadow-d: inset 0 2px 2px hsla(0, 0%, 0%, 0.1);
+$inset-shadow-l: inset 0 1px 1px hsla(0, 0%, 99%, 0.2);
 
 * {
     box-sizing: border-box;
@@ -25,15 +45,37 @@ $border-radius: 7px;
 
 html {
     font-family: $font-stack;
-    background-color: $neutral-5;
+    margin: 0;
+    padding: 0;
 }
 
 body {
+    margin: 0;
+    // This works with vieport-fit in index.html to keep display
+    // inside of notch on iphone
+    padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+    background-color: $neutral-5;
+    -webkit-text-size-adjust: none;
 }
 
 // Reset button style
 button {
     border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+p {
+    color: $neutral-0;
 }
 
 //----- Header
@@ -44,8 +86,9 @@ header {
     min-width: 300px;
     height: 80px;
     background-color: $neutral-6;
-    border-bottom: 1px solid $neutral-4;
+    border-bottom: $font-size-0/2 solid $primary-5;
     z-index: 5;
+    box-shadow: $s-shadow;
 
     display: flex;
     align-items: center;
@@ -70,7 +113,7 @@ header {
     }
 
     h2 {
-        color: $neutral-0;
+        color: $primary-3;
         font-size: $font-size-2;
         font-style: italic;
         font-weight: 400;
@@ -82,13 +125,13 @@ header {
 @mixin square-button {
     height: $font-size-7;
     width: $font-size-7;
-    border: 1px solid $neutral-2;
     border-radius: $border-radius;
-    background-color: $neutral-2;
+    background-color: $primary-2;
     color: $neutral-6;
     font-size: $font-size-3;
     line-height: 1;
     padding: 0;
+    box-shadow: $inset-shadow-l, $s-shadow;
 }
 
 //----- + button
@@ -130,7 +173,7 @@ header {
 .show-projects-div {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     justify-content: space-around;
 
     max-height: $font-size-6 * 10;
@@ -142,13 +185,47 @@ header {
     margin-top: 80px;
     z-index: 10;
     border-bottom: 1px solid $neutral-4;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+    box-shadow: $inset-shadow-d, $l-shadow, $xs-shadow;
 
-    background-color: $neutral-5;
-    padding: $font-size-2;
+    background-color: $primary-7;
+    padding: $font-size-6;
+    box-shadow: $inset-shadow-d, $l-shadow;
 
     p {
+        text-align: center;
+        margin: 0;
+    }
+
+    .project-div {
+        cursor: pointer;
+        margin: 0 auto $font-size-0;
+
+        p {
+            color: $primary-2;
+            font-size: $font-size-2;
+            text-decoration: underline;
+        }
+
+    }
+
+    .projects-title {
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+
         font-size: $font-size-3;
-        text-decoration: underline;
+        margin: 0 auto $font-size-1;
+
+    }
+
+    .projects-placeholder {
+        margin: $font-size-0 auto $font-size-4;
+
+        p {
+            font-style: italic;
+            color: $neutral-4;
+        }
     }
 }
 
@@ -172,17 +249,23 @@ header {
 
     .no-todo-placeholder-text {
         text-align: center;
+        font-style: italic;
+        color: $primary-2;
     }
 }
 
+//-----'Tasks' label
 .todos-label {
-    font-size: $font-size-2;
+    margin: $font-size-3 $font-size-0 $font-size-0/2;
     text-transform: uppercase;
-    margin: $font-size-0;
+    color: $neutral-2;
+    font-size: $font-size-2;
+    letter-spacing: -0.02em;
+
 }
 
 .todos-completed-div {
-    margin-top: $font-size-0 * 2;
+    margin-top: 0;
     position: relative;
 }
 
@@ -193,10 +276,13 @@ header {
 .clear-completed-todos {
     position: absolute;
     right: $font-size-0;
-    top: $font-size-0;
+    top: $font-size-3;
     text-transform: uppercase;
+    letter-spacing: -0.02em;
     text-decoration: underline;
     margin: 0;
+    color: $primary-2;
+    cursor: pointer;
 }
 
 
@@ -205,16 +291,15 @@ header {
     position: relative;
     font-size: $font-size-2;
     height: $font-size-6 * 2;
-    // width: auto;
-    // min-width: 300px;
     flex-grow: 1;
 
-    border: 1px solid $neutral-4;
+    border: 1px solid $neutral-5;
     border-radius: $border-radius;
-    padding: $font-size-2 $font-size-4 $font-size-2 $font-size-2;
+    padding: $font-size-1 $font-size-4 $font-size-2 $font-size-2;
     background-color: $neutral-6;
+    box-shadow: $xs-shadow;
 
-    margin: $font-size-0;
+    margin: 0 $font-size-0 /2 $font-size-0/2;
 
     display: flex;
     flex-direction: column;
@@ -224,7 +309,8 @@ header {
         margin: 0 0 0 $font-size-6 * 1.5;
         font-size: $font-size-0;
         text-transform: uppercase;
-        color: $neutral-3;
+        letter-spacing: -0.02em;
+        color: $primary-2;
     }
 
     // Hide initially
@@ -251,6 +337,8 @@ header {
     display: flex;
     align-items: stretch;
     min-height: $font-size-4;
+    cursor: pointer;
+    padding: 0;
     
     .todo-title {
         font-size: $font-size-3;
@@ -259,6 +347,8 @@ header {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: $neutral-1;
+        font-weight: 600;
     }
 }
 
@@ -272,37 +362,48 @@ header {
     top: $font-size-6 / 2;
     left: $font-size-6 / 2;
 
-    border: 3px solid $neutral-4;
+    border: 3px solid $primary-5;
     border-radius: $font-size-6;
 
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 
     i::before {
         height: $font-size-6;
         width: $font-size-6;
         font-size: $font-size-3;
-        color: $neutral-4;
+        color: $primary-6;
     }
 }
 
 //-----Todo: completed state
 .completed-todo {
+
     .todo-title {
         text-decoration: line-through;
         color: $neutral-4;
+        font-weight: 400;
     }
 
-    .todo-due {
-        color: $neutral-4;
+    .todo-due, .todo-project{
+        color: $neutral-4 !important;
+    }
+
+    button {
+        background-color: $neutral-4 !important;
     }
 }
 
 //-----Todo completion checkbox: completed state
 .completed {
-    background-color: $neutral-4;
-    border: 3px solid $neutral-4;
+    background-color: $primary-5;
+    border: 3px solid $primary-5;
+
+    i::before {
+        color: $neutral-6;
+    }
 }
 
 //-----Todo: expanded view
@@ -311,7 +412,7 @@ header {
     min-height: $font-size-6 * 5;
     max-height: $font-size-6 * 6;
     background-color: $neutral-6;
-    border: 1px solid $neutral-4;
+    border: 1px solid $neutral-5;
     border-radius: $border-radius;
     padding-bottom: $font-size-3;
 
@@ -328,6 +429,7 @@ header {
         display: initial;
         margin: $font-size-0/2 0 0 $font-size-6 * 1.5;
         overflow-y: scroll;
+        white-space: pre-wrap;
     }
 
     .todo-placeholder-text {
@@ -341,28 +443,48 @@ header {
         margin: $font-size-1 0 0 ($font-size-6 * 1.5);
         padding-top: $font-size-1;
         border-top: 1px solid $neutral-5;
+        color: $primary-2;
     }
 
     // Edit and Delete buttons
     button {
-        font-size: $font-size-5;
-        font-weight: 400;
-        color: $neutral-4;
-        background-color: transparent;
+        color: $neutral-6;
+        background-color: $primary-3;
+        margin: 0;
+        padding: 0;
     }
 
     .delete-todo {
         display: initial;
         position: absolute;
-        bottom: $font-size-0;
-        left: $font-size-2;
+        top: $font-size-6 * 3 + $font-size-3;
+        left: $font-size-3;
+        height: $font-size-5;
+        width: $font-size-5;
+        border-radius: $border-radius;
+
+        i::before {
+            text-align: center;
+            font-size: $font-size-2;
+            line-height: 1;
+        }
     }
 
     .edit-todo {
         display: initial;
         position: absolute;
-        bottom: $font-size-0 + $font-size-7;
-        left: $font-size-2;
+        top: $font-size-6 * 2 + $font-size-0;
+        left: $font-size-3;
+        height: $font-size-5;
+        width: $font-size-5;
+        border-radius: $border-radius;
+
+        i::before {
+            text-align: center;
+            font-size: $font-size-1;
+            line-height: 1;
+
+        }
     }
 }
 
@@ -387,18 +509,24 @@ header {
     margin-top: 80px;
     z-index: 10;
     border-bottom: 1px solid $neutral-4;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+    box-shadow: $inset-shadow-d, $l-shadow;
 
-    background-color: $neutral-5;
-    padding: $font-size-2;
+    background-color: $primary-6;
+    padding: $font-size-6;
 
     input, textarea {
         width: 80%;
         height: auto;
         font-size: $font-size-2;
-        margin: 0 auto $font-size-0;
-        border: 1px solid $neutral-4;
+        margin: 0 auto $font-size-1;
+        color: $neutral-2;
+        background-color: $neutral-5;
+        border: none;
         border-radius: $border-radius;
         padding: $font-size-0 / 2;
+        box-shadow: $inset-shadow-s, $xs-shadow-neg;
 
         ::placeholder {
             font-style: italic;
@@ -412,27 +540,34 @@ header {
     p {
         font-size: $font-size-3;
         margin: 0 auto $font-size-0;
+        color: $neutral-0;
+        font-style: italic;
     }
 
     button {
         text-transform: uppercase;
+        letter-spacing: -0.02em;
         padding: $font-size-0 $font-size-0 * 2;
         font-size: $font-size-2;
         font-weight: 600;
-        border: 1px solid $neutral-2;
+        border: 1px solid $primary-3;
         border-radius: $border-radius;
-        background-color: $neutral-2;
+        background-color: $primary-3;
         color: $neutral-6;
         align-items: center;
+        box-shadow: $inset-shadow-l, $s-shadow;
+        margin-top: $font-size-0/2;
     }
 
     .cancel-button {
         @include square-button;
         position: absolute;
-        top: -($font-size-7 + $font-size-2);
+        top: -($font-size-0 * 1.5 + $font-size-7 + 1px);
         right: $font-size-0;
-        background-color: $neutral-3;
-        border-color: $neutral-3;
+        background-color: $primary-2;
+        border: none;
+        box-shadow: $inset-shadow-l, $s-shadow;
+        margin: 0;
     }
 }
 
@@ -452,8 +587,8 @@ header {
     height: 100%;
     position: fixed;
     top: 80px;
-    background-color: $neutral-6;
-    opacity: 0.6;
+    background-color: $neutral-3;
+    opacity: 0.4;
     z-index: 9;
 }
 

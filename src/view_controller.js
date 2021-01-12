@@ -59,7 +59,7 @@ const ViewController = (Todo) => {
         viewProjectsButton.innerHTML = '<i class="far fa-folder"></i>';
         viewProjects.addEventListener('click', () => {
             projectsDiv.classList.toggle('show-projects-div');
-            backdropDiv.classList.remove('show-backdrop');
+            backdropDiv.classList.toggle('show-backdrop');
             newTodo.classList.toggle('hide-new-todo-button');
         });
 
@@ -273,7 +273,7 @@ const ViewController = (Todo) => {
                 } else if (key === 'due') {
                     p.textContent = formatDate(new Date(todo[key]), 'dd MMM, yyyy');
                 } else if (key === 'description' && todo[key] === '') {
-                    p.textContent = 'No notes yet.'
+                    p.textContent = 'No notes yet...'
                     p.classList.add('todo-placeholder-text');
                 } else {
                     p.textContent = todo[key];
@@ -305,7 +305,7 @@ const ViewController = (Todo) => {
 
         // edit button
         let editButton = document.createElement('button');
-        editButton.innerHTML = '<i class="far fa-edit"></i>';
+        editButton.innerHTML = '<i class="fas fa-pencil-alt"></i>';
         editButton.classList.add('edit-todo');
         todoDiv.appendChild(editButton);
 
@@ -317,14 +317,22 @@ const ViewController = (Todo) => {
             projectsDiv.removeChild(projectsDiv.lastChild);
         };
 
-        let div = document.createElement('div');
-        div.classList.add('project-div');
+        let divTitle = document.createElement('div');
+        divTitle.classList.add('projects-title');
+        let projectsDivTitle = document.createElement('p');
+        projectsDivTitle.textContent = 'Projects';
 
-        let p = document.createElement('p');
-        p.textContent = 'View All Todos';
-        div.appendChild(p);
+        divTitle.appendChild(projectsDivTitle);
+        projectsDiv.appendChild(divTitle);
 
-        projectsDiv.appendChild(div);
+        if (projects.length === 0) {
+            let div = document.createElement('div');
+            div.classList.add('projects-placeholder');
+            let placeholder = document.createElement('p');
+            placeholder.textContent = 'No projects yet...'
+            div.appendChild(placeholder);
+            projectsDiv.appendChild(div);
+        };
 
         projectList = [];
 
@@ -342,6 +350,13 @@ const ViewController = (Todo) => {
             projectsDiv.appendChild(div);
         });
 
+        let divBottom = document.createElement('div');
+        divBottom.classList.add('project-div', 'view-all-todos');
+        let p = document.createElement('p');
+        p.textContent = 'View All Todos';
+        divBottom.appendChild(p);
+        projectsDiv.appendChild(divBottom);
+
     };
 
     // Render a form to edit Todo
@@ -349,6 +364,7 @@ const ViewController = (Todo) => {
         editTodoDiv.classList.add('show-edit-div');
         backdropDiv.classList.add('show-backdrop');
         viewProjects.classList.remove('show-projects-button');
+        newTodo.classList.add('hide-new-todo-button');
 
         let title = document.createElement('p');
         title.textContent = 'On second thought...';
@@ -484,7 +500,7 @@ const ViewController = (Todo) => {
 
         todosDiv.addEventListener('click', e => {
 
-            if (e.target.classList.contains('fa-trash-alt')) {
+            if (e.target.classList.contains('fa-trash-alt' || 'delete-todo')) {
                 // confirm the delete
                 let confirmation = confirm('Are you sure you want to delete this task?');
                 if (confirmation) {
@@ -504,7 +520,7 @@ const ViewController = (Todo) => {
 
         todosDiv.addEventListener('click', e => {
 
-            if (e.target.classList.contains('fa-edit')) {
+            if (e.target.classList.contains('fa-pencil-alt' || 'edit-todo')) {
                 let id = e.target.parentElement.parentElement.id;
                 controllerAction('id', +id);
             };
@@ -541,7 +557,7 @@ const ViewController = (Todo) => {
 
         todosDiv.addEventListener('click', e => {
 
-            if (e.target.classList.contains('fa-check')) {
+            if (e.target.classList.contains('fa-check' || 'todo-complete')) {
 
                 let boolean = e.target.parentElement.getAttribute('data-complete');
                 e.target.parentElement.setAttribute('data-complete', !boolean);
