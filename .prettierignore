@@ -1,0 +1,11 @@
+/.*
+/*.scss
+/*.css
+/*.index.html
+
+/node_modules
+/webpack.config.js
+/package.json
+/package-lock.json
+
+/dist

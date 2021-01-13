@@ -1,4 +1,4 @@
-$font-stack: 'Nunito', 'Arial', sans-serif;
+$font-stack: "Nunito", "Arial", sans-serif;
 $font-size-0: 12px;
 $font-size-1: 14px;
 $font-size-2: 16px;
@@ -24,589 +24,615 @@ $primary-3: hsl(183, 65%, 38%);
 $primary-2: hsl(183, 73%, 28%);
 $primary-1: hsl(192, 61%, 19%);
 
-
-
 $border-radius: 7px;
 
 // $xs-shadow: 0 1px 3px hsla(0, 0%, 20%);
-$xs-shadow: 0 1px 2px hsla(0, 0%, 0%, .2);
-$xs-shadow-neg: 0 -2px 0 hsla(0, 0%, 0%, .1);
-$s-shadow: 0 2px 4px hsla(0, 0%, 0%, .2);
-$m-shadow: 0 3px 6px hsla(0, 0%, 0%, .2);
-$l-shadow: 0 10px 20px hsla(0, 0%, 0%, .2);
+$xs-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.2);
+$xs-shadow-neg: 0 -2px 0 hsla(0, 0%, 0%, 0.1);
+$s-shadow: 0 2px 4px hsla(0, 0%, 0%, 0.2);
+$m-shadow: 0 3px 6px hsla(0, 0%, 0%, 0.2);
+$l-shadow: 0 10px 20px hsla(0, 0%, 0%, 0.2);
 $inset-shadow-s: inset 0 1px 1px hsla(0, 0%, 0%, 0.1);
 $inset-shadow-d: inset 0 2px 2px hsla(0, 0%, 0%, 0.1);
 $inset-shadow-l: inset 0 1px 1px hsla(0, 0%, 99%, 0.2);
 
 * {
-    box-sizing: border-box;
-    line-height: 1.2;
+  box-sizing: border-box;
+  line-height: 1.2;
 }
 
 html {
-    font-family: $font-stack;
-    margin: 0;
-    padding: 0;
+  font-family: $font-stack;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    margin: 0;
-    background-color: $neutral-5;
-    -webkit-text-size-adjust: none;
+  margin: 0;
+  background-color: $neutral-5;
+  -webkit-text-size-adjust: none;
 }
 
 // Reset button style
 button {
-    border: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    cursor: pointer;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
 }
 
 input {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 p {
-    color: $neutral-0;
+  color: $neutral-0;
 }
 
 //----- Header
 header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    min-width: 300px;
-    height: 80px;
-    background-color: $neutral-6;
-    border-bottom: $font-size-0/2 solid $primary-5;
-    z-index: 5;
-    box-shadow: $s-shadow;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  min-width: 300px;
+  height: 80px;
+  background-color: $neutral-6;
+  border-bottom: $font-size-0/2 solid $primary-5;
+  z-index: 5;
+  box-shadow: $s-shadow;
 
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: $font-size-0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: $font-size-0;
 }
 
 .title {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: $font-size-0 / 2 $font-size-1;
-    height: 80 - $font-size-0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: $font-size-0 / 2 $font-size-1;
+  height: 80 - $font-size-0;
 
-    display: flex;
-    align-items: flex-start;
+  display: flex;
+  align-items: flex-start;
 
-    h1 {
-        color: $neutral-0;
-        font-size: $font-size-5;
-        font-weight: 600;
-    }
+  h1 {
+    color: $neutral-0;
+    font-size: $font-size-5;
+    font-weight: 600;
+  }
 
-    h2 {
-        color: $primary-3;
-        font-size: $font-size-2;
-        font-style: italic;
-        font-weight: 400;
-        margin-left: 4px;
-    }
+  h2 {
+    color: $primary-3;
+    font-size: $font-size-2;
+    font-style: italic;
+    font-weight: 400;
+    margin-left: 4px;
+  }
 }
 
 // Square buttons
 @mixin square-button {
-    height: $font-size-7;
-    width: $font-size-7;
-    border-radius: $border-radius;
-    background-color: $primary-2;
-    color: $neutral-6;
-    font-size: $font-size-3;
-    line-height: 1;
-    padding: 0;
-    box-shadow: $inset-shadow-l, $s-shadow;
+  height: $font-size-7;
+  width: $font-size-7;
+  border-radius: $border-radius;
+  background-color: $primary-2;
+  color: $neutral-6;
+  font-size: $font-size-3;
+  line-height: 1;
+  padding: 0;
+  box-shadow: $inset-shadow-l, $s-shadow;
 }
 
 //----- + button
 .new-todo {
-    order: 3;
-    visibility: visible;
+  order: 3;
+  visibility: visible;
 
-    button {
-        @include square-button;
-    }
+  button {
+    @include square-button;
+  }
 }
 
 //--Add new Todo button: toggle class on click
 .hide-new-todo-button {
-    visibility: hidden;
-
+  visibility: hidden;
 }
 
 .projects-button {
-    visibility: hidden;
-
+  visibility: hidden;
 }
 
 .show-projects-button {
-    order: 2;
-    margin: $font-size-0/2;
-    visibility: visible;
+  order: 2;
+  margin: $font-size-0/2;
+  visibility: visible;
 
-    button {
-        @include square-button;
-    }
+  button {
+    @include square-button;
+  }
 }
 
 //-----Projects div
 .projects-div {
-    display: none;
+  display: none;
 }
 
 .show-projects-div {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-around;
 
-    max-height: $font-size-6 * 10;
-    height: auto;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    margin-top: 80px;
-    z-index: 10;
-    border-bottom: 1px solid $neutral-4;
-    border-bottom-left-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
-    box-shadow: $inset-shadow-d, $l-shadow, $xs-shadow;
+  max-height: $font-size-6 * 10;
+  height: auto;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 80px;
+  z-index: 10;
+  border-bottom: 1px solid $neutral-4;
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  box-shadow: $inset-shadow-d, $l-shadow, $xs-shadow;
 
-    background-color: $primary-7;
-    padding: $font-size-6;
-    box-shadow: $inset-shadow-d, $l-shadow;
+  background-color: $primary-7;
+  padding: $font-size-6;
+  box-shadow: $inset-shadow-d, $l-shadow;
+
+  p {
+    text-align: center;
+    margin: 0;
+  }
+
+  .project-div {
+    cursor: pointer;
+    margin: 0 auto $font-size-2;
 
     p {
-        text-align: center;
-        margin: 0;
+      color: $primary-2;
+      font-size: $font-size-3;
+      text-decoration: underline;
     }
+  }
 
-    .project-div {
-        cursor: pointer;
-        margin: 0 auto $font-size-2;
+  .projects-title {
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
 
-        p {
-            color: $primary-2;
-            font-size: $font-size-3;
-            text-decoration: underline;
-        }
+    font-size: $font-size-3;
+    margin: 0 auto $font-size-3;
+  }
 
+  .projects-placeholder {
+    margin: $font-size-0 auto $font-size-4;
+
+    p {
+      font-style: italic;
+      color: $neutral-4;
     }
-
-    .projects-title {
-        text-transform: uppercase;
-        letter-spacing: -0.02em;
-
-        font-size: $font-size-3;
-        margin: 0 auto $font-size-3;
-
-    }
-
-    .projects-placeholder {
-        margin: $font-size-0 auto $font-size-4;
-
-        p {
-            font-style: italic;
-            color: $neutral-4;
-        }
-    }
+  }
 }
 
 //----- main div with Todos
 .todos-div {
-    position: absolute;
-    top: 80px;
-    width: 100%;
-    min-width: 300px;
-    height: auto;
-    background-color: $neutral-5;
-    z-index: 0;
+  position: absolute;
+  top: 80px;
+  width: 100%;
+  min-width: 300px;
+  height: auto;
+  background-color: $neutral-5;
+  z-index: 0;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 
-    * {
-        margin: 0;
-    }
+  * {
+    margin: 0;
+  }
 
-    .no-todo-placeholder-text {
-        text-align: center;
-        font-style: italic;
-        color: $primary-2;
-    }
+  .no-todo-placeholder-text {
+    text-align: center;
+    font-style: italic;
+    color: $primary-2;
+  }
 }
 
 //-----'Tasks' label
 .todos-label {
-    margin: $font-size-3 $font-size-0 $font-size-0/2;
-    text-transform: uppercase;
-    color: $neutral-2;
-    font-size: $font-size-2;
-    letter-spacing: -0.02em;
-
+  margin: $font-size-3 $font-size-0 $font-size-0/2;
+  text-transform: uppercase;
+  color: $neutral-2;
+  font-size: $font-size-2;
+  letter-spacing: -0.02em;
 }
 
 .todos-completed-div {
-    margin-top: 0;
-    position: relative;
+  margin-top: 0;
+  position: relative;
 }
 
 .hide-todos-completed-div {
-    display: none;
+  display: none;
 }
 
 .clear-completed-todos {
-    position: absolute;
-    right: $font-size-0;
-    top: $font-size-3;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    text-decoration: underline;
-    margin: 0;
-    color: $primary-2;
-    cursor: pointer;
+  position: absolute;
+  right: $font-size-0;
+  top: $font-size-3;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  text-decoration: underline;
+  margin: 0;
+  color: $primary-2;
+  cursor: pointer;
 }
-
 
 //----- each Todo
 .todo-div {
-    position: relative;
-    font-size: $font-size-2;
-    height: $font-size-6 * 2;
-    flex-grow: 1;
+  position: relative;
+  font-size: $font-size-2;
+  max-height: $font-size-6 * 2;
+  flex-grow: 1;
 
-    border: 1px solid $neutral-5;
-    border-radius: $border-radius;
-    padding: $font-size-1 $font-size-4 $font-size-2 $font-size-2;
-    background-color: $neutral-6;
-    box-shadow: $xs-shadow;
+  border: 1px solid $neutral-5;
+  border-radius: $border-radius;
+  padding: $font-size-1 $font-size-4 $font-size-2 $font-size-2;
+  background-color: $neutral-6;
+  box-shadow: $xs-shadow;
 
-    margin: 0 $font-size-0 /2 $font-size-0/2;
+  margin: 0 $font-size-0 / 2 $font-size-0/2;
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    //-----Todo due date
-    .todo-due {
-        margin: 0 0 0 $font-size-6 * 1.5;
-        font-size: $font-size-0;
-        text-transform: uppercase;
-        letter-spacing: -0.02em;
-        color: $primary-2;
-    }
+  //-----Todo due date
+  .todo-due {
+    margin: 0 0 0 $font-size-6 * 1.5;
+    font-size: $font-size-0;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: $primary-2;
+  }
 
-    // Hide initially
-    .todo-description {
-        display: none;
-    }
+  // Hide initially
+  .todo-description {
+    display: none;
+  }
 
-    .todo-project {
-        display: none;
-    }
+  .todo-project {
+    display: none;
+  }
 
-    .delete-todo {
-        display: none;
-    }
-    
-    .edit-todo {
-        display: none;
-    }
+  .delete-todo {
+    display: none;
+  }
+
+  .edit-todo {
+    display: none;
+  }
 }
 
 //-----Todo title
 .todo-title-div {
-    margin: 0 0 0 $font-size-6 * 1.5;
-    display: flex;
+  margin: 0 0 0 $font-size-6 * 1.5;
+  display: flex;
+  align-items: stretch;
+  min-height: $font-size-4;
+  cursor: pointer;
+  padding: 0;
+
+  .todo-title {
+    font-size: $font-size-3;
+    margin: 0;
     align-items: stretch;
-    min-height: $font-size-4;
-    cursor: pointer;
-    padding: 0;
-    
-    .todo-title {
-        font-size: $font-size-3;
-        margin: 0;
-        align-items: stretch;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: $neutral-1;
-        font-weight: 600;
-    }
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: $neutral-1;
+    font-weight: 600;
+  }
 }
 
 //-----Todo completion checkbox
 .todo-complete {
+  height: $font-size-6;
+  width: $font-size-6;
+  margin: 0;
+
+  position: absolute;
+  top: $font-size-6 / 2;
+  left: $font-size-6 / 2;
+
+  border: 3px solid $primary-6;
+  border-radius: $font-size-6;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  i::before {
     height: $font-size-6;
     width: $font-size-6;
-    margin: 0;
-
-    position: absolute;
-    top: $font-size-6 / 2;
-    left: $font-size-6 / 2;
-
-    border: 3px solid $primary-6;
-    border-radius: $font-size-6;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-
-    i::before {
-        height: $font-size-6;
-        width: $font-size-6;
-        font-size: $font-size-3;
-        color: $primary-6;
-    }
+    font-size: $font-size-3;
+    color: $primary-6;
+  }
 }
 
 //-----Todo: completed state
 .completed-todo {
+  .todo-title {
+    text-decoration: line-through;
+    color: $neutral-4;
+    font-weight: 400;
+  }
 
-    .todo-title {
-        text-decoration: line-through;
-        color: $neutral-4;
-        font-weight: 400;
-    }
+  .todo-due,
+  .todo-project {
+    color: $neutral-4 !important;
+  }
 
-    .todo-due, .todo-project{
-        color: $neutral-4 !important;
-    }
-
-    button {
-        background-color: $neutral-4 !important;
-    }
+  button {
+    background-color: $neutral-4 !important;
+  }
 }
 
 //-----Todo completion checkbox: completed state
 .completed {
-    background-color: $primary-5;
-    border: 3px solid $primary-5;
+  background-color: $primary-5;
+  border: 3px solid $primary-5;
 
-    i::before {
-        color: $neutral-6;
-    }
+  i::before {
+    color: $neutral-6;
+  }
 }
 
 //-----Todo: expanded view
 .expanded-todo {
-    height: auto;
-    min-height: $font-size-6 * 5;
-    max-height: $font-size-6 * 6;
-    background-color: $neutral-6;
-    border: 1px solid $neutral-5;
+  height: auto;
+  min-height: $font-size-6 * 5;
+  max-height: $font-size-6 * 6;
+  background-color: $neutral-6;
+  border: 1px solid $neutral-5;
+  border-radius: $border-radius;
+  padding-bottom: $font-size-3;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: baseline;
+
+  .todo-title {
+    overflow-x: scroll;
+  }
+
+  .todo-description {
+    order: 2;
+    display: initial;
+    margin: $font-size-0/2 0 0 $font-size-6 * 1.5;
+    overflow-y: scroll;
+    white-space: pre-wrap;
+  }
+
+  .todo-placeholder-text {
+    font-style: italic;
+    color: $neutral-4;
+  }
+
+  .todo-project {
+    order: 1;
+    display: initial;
+    margin: $font-size-1 0 0 ($font-size-6 * 1.5);
+    padding-top: $font-size-1;
+    border-top: 1px solid $neutral-5;
+    color: $primary-2;
+  }
+
+  // Edit and Delete buttons
+  button {
+    color: $neutral-6;
+    background-color: $primary-3;
+    margin: 0;
+    padding: 0;
+  }
+
+  .delete-todo {
+    display: initial;
+    position: absolute;
+    top: $font-size-6 * 3 + $font-size-3;
+    left: $font-size-0 * 1.5;
+    height: $font-size-6;
+    width: $font-size-6;
     border-radius: $border-radius;
-    padding-bottom: $font-size-3;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: baseline;
-
-    .todo-title {
-        overflow-x: scroll;
+    i::before {
+      text-align: center;
+      font-size: $font-size-2;
+      line-height: 1;
     }
+  }
 
-    .todo-description {
-        order: 2;
-        display: initial;
-        margin: $font-size-0/2 0 0 $font-size-6 * 1.5;
-        overflow-y: scroll;
-        white-space: pre-wrap;
+  .edit-todo {
+    display: initial;
+    position: absolute;
+    top: $font-size-6 * 2 + $font-size-0/4;
+    left: $font-size-0 * 1.5;
+    height: $font-size-6;
+    width: $font-size-6;
+    border-radius: $border-radius;
+
+    i::before {
+      text-align: center;
+      font-size: $font-size-1;
+      line-height: 1;
     }
-
-    .todo-placeholder-text {
-        font-style: italic;
-        color: $neutral-4;
-    }
-
-    .todo-project {
-        order: 1;
-        display: initial;
-        margin: $font-size-1 0 0 ($font-size-6 * 1.5);
-        padding-top: $font-size-1;
-        border-top: 1px solid $neutral-5;
-        color: $primary-2;
-    }
-
-    // Edit and Delete buttons
-    button {
-        color: $neutral-6;
-        background-color: $primary-3;
-        margin: 0;
-        padding: 0;
-    }
-
-    .delete-todo {
-        display: initial;
-        position: absolute;
-        top: $font-size-6 * 3 + $font-size-3;
-        left: $font-size-0 * 1.5;
-        height: $font-size-6;
-        width: $font-size-6;
-        border-radius: $border-radius;
-
-        i::before {
-            text-align: center;
-            font-size: $font-size-2;
-            line-height: 1;
-        }
-    }
-
-    .edit-todo {
-        display: initial;
-        position: absolute;
-        top: $font-size-6 * 2 + $font-size-0/4;
-        left: $font-size-0 * 1.5;
-        height: $font-size-6;
-        width: $font-size-6;
-        border-radius: $border-radius;
-
-        i::before {
-            text-align: center;
-            font-size: $font-size-1;
-            line-height: 1;
-
-        }
-    }
+  }
 }
 
 //--Form to add new Todo
 .form-div {
-    display: none;
+  display: none;
 }
 
 //-----Pop-up form
 @mixin form-format {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 
-    max-height: $font-size-6 * 10;
+  max-height: $font-size-6 * 10;
+  height: auto;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 80px;
+  z-index: 10;
+  border-bottom: 1px solid $neutral-4;
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  box-shadow: $inset-shadow-d, $l-shadow;
+
+  background-color: $primary-6;
+  padding: $font-size-6;
+
+  input,
+  textarea {
+    width: 80%;
     height: auto;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    margin-top: 80px;
-    z-index: 10;
-    border-bottom: 1px solid $neutral-4;
-    border-bottom-left-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
-    box-shadow: $inset-shadow-d, $l-shadow;
+    font-size: $font-size-2;
+    margin: 0 auto $font-size-1;
+    color: $neutral-2;
+    background-color: $neutral-5;
+    border: none;
+    border-radius: $border-radius;
+    padding: $font-size-0 / 2;
+    box-shadow: $inset-shadow-s, $xs-shadow-neg;
 
-    background-color: $primary-6;
-    padding: $font-size-6;
-
-    input, textarea {
-        width: 80%;
-        height: auto;
-        font-size: $font-size-2;
-        margin: 0 auto $font-size-1;
-        color: $neutral-2;
-        background-color: $neutral-5;
-        border: none;
-        border-radius: $border-radius;
-        padding: $font-size-0 / 2;
-        box-shadow: $inset-shadow-s, $xs-shadow-neg;
-
-        ::placeholder {
-            font-style: italic;
-        }
+    ::placeholder {
+      font-style: italic;
     }
+  }
 
-    textarea {
-        resize: none;
-    }
+  textarea {
+    resize: none;
+  }
 
-    p {
-        font-size: $font-size-3;
-        margin: 0 auto $font-size-0;
-        color: $neutral-0;
-        font-style: italic;
-    }
+  p {
+    font-size: $font-size-3;
+    margin: 0 auto $font-size-0;
+    color: $neutral-0;
+    font-style: italic;
+  }
 
-    button {
-        text-transform: uppercase;
-        letter-spacing: -0.02em;
-        padding: $font-size-0 $font-size-0 * 2;
-        font-size: $font-size-2;
-        font-weight: 600;
-        border: 1px solid $primary-3;
-        border-radius: $border-radius;
-        background-color: $primary-3;
-        color: $neutral-6;
-        align-items: center;
-        box-shadow: $inset-shadow-l, $s-shadow;
-        margin-top: $font-size-0/2;
-    }
+  button {
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    padding: $font-size-0 $font-size-0 * 2;
+    font-size: $font-size-2;
+    font-weight: 600;
+    border: 1px solid $primary-3;
+    border-radius: $border-radius;
+    background-color: $primary-3;
+    color: $neutral-6;
+    align-items: center;
+    box-shadow: $inset-shadow-l, $s-shadow;
+    margin-top: $font-size-0/2;
+  }
 
-    .cancel-button {
-        @include square-button;
-        position: absolute;
-        top: -($font-size-0 * 1.5 + $font-size-7 + 1px);
-        right: $font-size-0;
-        background-color: $primary-2;
-        border: none;
-        box-shadow: $inset-shadow-l, $s-shadow;
-        margin: 0;
-    }
+  .cancel-button {
+    @include square-button;
+    position: absolute;
+    top: -($font-size-0 * 1.5 + $font-size-7 + 1px);
+    right: $font-size-0;
+    background-color: $primary-2;
+    border: none;
+    box-shadow: $inset-shadow-l, $s-shadow;
+    margin: 0;
+  }
 }
 
 .show-form-div {
-    @include form-format;
-    
+  @include form-format;
 }
 
 //-----Backdrop to disable background on Add Todo and Edit Todo modes
 .backdrop {
-    display: none;
+  display: none;
 }
 
 .show-backdrop {
-    display: initial;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 80px;
-    background-color: $neutral-3;
-    opacity: 0.4;
-    z-index: 9;
+  display: initial;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 80px;
+  background-color: $neutral-3;
+  opacity: 0.4;
+  z-index: 9;
 }
-
 
 //-----Edit Todos Div
 .edit-todo-div {
-    display: none;
+  display: none;
 }
 
 .show-edit-div {
-    @include form-format;
-
+  @include form-format;
 }
-
 
 //-----Media queries
 
 //-----medium size screen
 @media screen and (min-width: 480px) {
-};
+  body {
+    display: flex;
+  }
+
+  .todos-div {
+    position: relative;
+    width: auto;
+    flex-grow: 3;
+    order: 2;
+
+    .todos-label {
+      margin-top: $font-size-2;
+    }
+
+    .todo-div {
+      width: auto;
+      flex-grow: 3;
+      order: 2;
+    }
+  }
+
+  .expanded-todo {
+  }
+
+  .projects-button {
+    visibility: hidden;
+  }
+
+  .projects-div {
+    margin-top: 80px;
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    order: 1;
+    background-color: $primary-6;
+    padding: 0 $font-size-5;
+  }
+}
 
 //-----large size screen
 @media screen and (min-width: 790px) {
-
-};
+} ;
