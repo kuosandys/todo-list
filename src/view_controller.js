@@ -470,13 +470,18 @@ const ViewController = (Todo) => {
   // Delete Todo buttons send the id of the Todo for deletion
   const bindRequestDeleteTodo = (controllerAction) => {
     todosDiv.addEventListener("click", (e) => {
-      if (e.target.classList.contains("fa-trash-alt" || "delete-todo")) {
+      if (
+        e.target.classList.contains("fa-trash-alt") ||
+        e.target.classList.contains("delete-todo")
+      ) {
         // confirm the delete
         let confirmation = confirm(
           "Are you sure you want to delete this task?"
         );
         if (confirmation) {
-          let id = e.target.parentElement.parentElement.id;
+          let id =
+            e.target.parentElement.parentElement.id ||
+            e.target.parentElement.id;
           controllerAction(id);
         } else {
           return;
@@ -488,8 +493,12 @@ const ViewController = (Todo) => {
   // Edit Todo buttons send the id of the Todo for edit
   const bindRequestEditTodo = (controllerAction) => {
     todosDiv.addEventListener("click", (e) => {
-      if (e.target.classList.contains("fa-pencil-alt" || "edit-todo")) {
-        let id = e.target.parentElement.parentElement.id;
+      if (
+        e.target.classList.contains("fa-pencil-alt") ||
+        e.target.classList.contains("edit-todo")
+      ) {
+        let id =
+          e.target.parentElement.parentElement.id || e.target.parentElement.id;
         controllerAction("id", +id);
       }
     });

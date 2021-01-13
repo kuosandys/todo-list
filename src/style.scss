@@ -588,51 +588,51 @@ header {
   @include form-format;
 }
 
-//-----Media queries
+// //-----Media queries
 
-//-----medium size screen
-@media screen and (min-width: 480px) {
-  body {
-    display: flex;
-  }
+// //-----medium size screen
+// @media screen and (min-width: 480px) {
+//   body {
+//     display: flex;
+//   }
 
-  .todos-div {
-    position: relative;
-    width: auto;
-    flex-grow: 3;
-    order: 2;
+//   .todos-div {
+//     position: relative;
+//     width: auto;
+//     flex-grow: 3;
+//     order: 2;
 
-    .todos-label {
-      margin-top: $font-size-2;
-    }
+//     .todos-label {
+//       margin-top: $font-size-2;
+//     }
 
-    .todo-div {
-      width: auto;
-      flex-grow: 3;
-      order: 2;
-    }
-  }
+//     .todo-div {
+//       width: auto;
+//       flex-grow: 3;
+//       order: 2;
+//     }
+//   }
 
-  .expanded-todo {
-  }
+//   .expanded-todo {
+//   }
 
-  .projects-button {
-    visibility: hidden;
-  }
+//   .projects-button {
+//     visibility: hidden;
+//   }
 
-  .projects-div {
-    margin-top: 80px;
-    position: relative;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    width: 100px;
-    order: 1;
-    background-color: $primary-6;
-    padding: 0 $font-size-5;
-  }
-}
+//   .projects-div {
+//     margin-top: 80px;
+//     position: relative;
+//     flex-grow: 1;
+//     display: flex;
+//     flex-direction: column;
+//     width: 100px;
+//     order: 1;
+//     background-color: $primary-6;
+//     padding: 0 $font-size-5;
+//   }
+// }
 
-//-----large size screen
-@media screen and (min-width: 790px) {
-} ;
+// //-----large size screen
+// @media screen and (min-width: 790px) {
+// } ;
