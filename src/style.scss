@@ -35,6 +35,36 @@ $inset-shadow-s: inset 0 1px 1px hsla(0, 0%, 0%, 0.1);
 $inset-shadow-d: inset 0 2px 2px hsla(0, 0%, 0%, 0.1);
 $inset-shadow-l: inset 0 1px 1px hsla(0, 0%, 99%, 0.2);
 
+//----- animations
+@keyframes pop {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes show {
+  from {
+    margin-top: -50px;
+  }
+  to {
+    margin-top: 0px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.9;
+  }
+}
+
 * {
   box-sizing: border-box;
   line-height: 1.2;
@@ -93,39 +123,21 @@ h4 {
   text-align: center;
   margin: 0 auto;
   padding: 5px 10px;
-  color: $primary-2;
+  color: $neutral-6;
   font-size: $font-size-1;
-  background-color: $neutral-6;
-  opacity: 0.9;
-  border-radius: $border-radius;
+  background-color: $primary-2;
+  // border-radius: $border-radius;
   z-index: 10;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+  animation-delay: 1s;
 
   a {
     text-decoration: none;
-    color: $primary-2;
+    color: $neutral-6;
     &:hover {
       text-decoration: underline;
     }
-  }
-}
-
-//----- animations
-@keyframes pop {
-  from {
-    transform: scale(1);
-  }
-
-  to {
-    transform: scale(1.2);
-  }
-}
-
-@keyframes show {
-  from {
-    margin-top: -50px;
-  }
-  to {
-    margin-top: 0px;
   }
 }
 
