@@ -367,6 +367,10 @@ const ViewController = (Todo) => {
       if (key === "due") {
         newInput.type = "date";
         newInput.value = formatDate(new Date(todo[key]), "yyyy-MM-dd");
+      } else if (key === "description") {
+        newInput = document.createElement("textarea");
+        newInput.rows = "3";
+        newInput.value = todo[key];
       } else {
         newInput.type = "text";
         newInput.value = todo[key];
