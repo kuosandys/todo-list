@@ -5,7 +5,7 @@ const ViewController = (Todo) => {
   // Create an empty Todo as a template
   const templateTodo = Todo;
 
-  const root = document.body;
+  const root = document.getElementsByTagName("main")[0];
 
   let newTodo;
   let viewProjects;
@@ -59,6 +59,7 @@ const ViewController = (Todo) => {
     viewProjectsButton.innerHTML = '<i class="far fa-folder"></i>';
     viewProjects.addEventListener("click", () => {
       projectsDiv.classList.toggle("show-projects-div");
+      projectsDiv.classList.toggle("hide-projects-div");
       backdropDiv.classList.toggle("show-backdrop");
       newTodo.classList.toggle("hide-new-todo-button");
     });
@@ -172,6 +173,7 @@ const ViewController = (Todo) => {
     backdropDiv.classList.remove("show-backdrop");
     newTodo.classList.remove("hide-new-todo-button");
     projectsDiv.classList.remove("show-projects-div");
+    projectsDiv.classList.add("hide-projects-div");
 
     // Delete all elements from the Todos div
     while (todosDiv.firstChild) {

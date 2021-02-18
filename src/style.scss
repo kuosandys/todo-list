@@ -26,7 +26,6 @@ $primary-1: hsl(192, 61%, 19%);
 
 $border-radius: 7px;
 
-// $xs-shadow: 0 1px 3px hsla(0, 0%, 20%);
 $xs-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.2);
 $xs-shadow-neg: 0 -2px 0 hsla(0, 0%, 0%, 0.1);
 $s-shadow: 0 2px 4px hsla(0, 0%, 0%, 0.2);
@@ -48,9 +47,17 @@ html {
 }
 
 body {
-  margin: 0;
-  background-color: $neutral-5;
   -webkit-text-size-adjust: none;
+  background-color: $neutral-1;
+}
+
+main {
+  width: 100%;
+  max-width: 800px;
+  background-color: $neutral-5;
+  margin: 0 auto;
+  height: auto;
+  min-height: 100vh;
 }
 
 // Reset button style
@@ -72,12 +79,34 @@ p {
   color: $neutral-0;
 }
 
+//----- animations
+@keyframes pop {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes show {
+  from {
+    margin-top: -50px;
+  }
+  to {
+    margin-top: 0px;
+  }
+}
+
 //----- Header
 header {
-  position: fixed;
+  position: relative;
   top: 0;
   width: 100%;
   min-width: 300px;
+  max-width: 800px;
+  margin: 0 auto;
   height: 80px;
   background-color: $neutral-6;
   border-bottom: $font-size-0/2 solid $primary-5;
@@ -92,6 +121,7 @@ header {
 
 .title {
   position: absolute;
+  margin: 0 auto;
   top: 0;
   left: 0;
   padding: $font-size-0 / 2 $font-size-1;
@@ -112,6 +142,7 @@ header {
     font-style: italic;
     font-weight: 400;
     margin-left: 4px;
+    animation: pop 0.5s infinite alternate;
   }
 }
 
@@ -126,6 +157,10 @@ header {
   line-height: 1;
   padding: 0;
   box-shadow: $inset-shadow-l, $s-shadow;
+
+  :hover {
+    animation: pop 0.1s forwards;
+  }
 }
 
 //----- + button
@@ -171,10 +206,9 @@ header {
   max-height: $font-size-6 * 10;
   height: auto;
   width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  margin-top: 80px;
+  max-width: 800px;
+  position: absolute;
+  margin: 0 auto;
   z-index: 10;
   border-bottom: 1px solid $neutral-4;
   border-bottom-left-radius: $border-radius;
@@ -222,8 +256,8 @@ header {
 //----- main div with Todos
 .todos-div {
   position: absolute;
-  top: 80px;
   width: 100%;
+  max-width: 800px;
   min-width: 300px;
   height: auto;
   background-color: $neutral-5;
@@ -292,6 +326,8 @@ header {
   display: flex;
   flex-direction: column;
 
+  animation: show 0.5s forwards;
+
   //-----Todo due date
   .todo-due {
     margin: 0 0 0 $font-size-6 * 1.5;
@@ -336,7 +372,7 @@ header {
     overflow: hidden;
     text-overflow: ellipsis;
     color: $neutral-1;
-    font-weight: 600;
+    font-weight: 400;
   }
 }
 
@@ -363,6 +399,10 @@ header {
     width: $font-size-6;
     font-size: $font-size-3;
     color: $primary-6;
+  }
+
+  :hover {
+    animation: pop 0.1s forwards;
   }
 }
 
@@ -456,6 +496,9 @@ header {
       font-size: $font-size-2;
       line-height: 1;
     }
+    :hover {
+      animation: pop 0.1s forwards;
+    }
   }
 
   .edit-todo {
@@ -471,6 +514,9 @@ header {
       text-align: center;
       font-size: $font-size-1;
       line-height: 1;
+    }
+    :hover {
+      animation: pop 0.1s forwards;
     }
   }
 }
@@ -490,10 +536,9 @@ header {
   max-height: $font-size-6 * 10;
   height: auto;
   width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  margin-top: 80px;
+  max-width: 800px;
+  position: absolute;
+  margin: 0 auto;
   z-index: 10;
   border-bottom: 1px solid $neutral-4;
   border-bottom-left-radius: $border-radius;
@@ -571,8 +616,10 @@ header {
 .show-backdrop {
   display: initial;
   width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
   height: 100%;
-  position: fixed;
+  position: absolute;
   top: 80px;
   background-color: $neutral-3;
   opacity: 0.4;
@@ -587,52 +634,3 @@ header {
 .show-edit-div {
   @include form-format;
 }
-
-// //-----Media queries
-
-// //-----medium size screen
-// @media screen and (min-width: 480px) {
-//   body {
-//     display: flex;
-//   }
-
-//   .todos-div {
-//     position: relative;
-//     width: auto;
-//     flex-grow: 3;
-//     order: 2;
-
-//     .todos-label {
-//       margin-top: $font-size-2;
-//     }
-
-//     .todo-div {
-//       width: auto;
-//       flex-grow: 3;
-//       order: 2;
-//     }
-//   }
-
-//   .expanded-todo {
-//   }
-
-//   .projects-button {
-//     visibility: hidden;
-//   }
-
-//   .projects-div {
-//     margin-top: 80px;
-//     position: relative;
-//     flex-grow: 1;
-//     display: flex;
-//     flex-direction: column;
-//     width: 100px;
-//     order: 1;
-//     background-color: $primary-6;
-//     padding: 0 $font-size-5;
-//   }
-// }
-
-// //-----large size screen
-// @media screen and (min-width: 790px) {
-// } ;
