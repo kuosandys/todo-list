@@ -1,6 +1,6 @@
 // Factory function that creates a model to organize Todo's
-const TodosModel = () => {
-  let _todos = JSON.parse(localStorage.getItem("todos")) || [];
+const TodosModel = (placeholderData = []) => {
+  let _todos = JSON.parse(localStorage.getItem("todos")) || placeholderData;
   let _projectList = JSON.parse(localStorage.getItem("projects")) || [];
 
   let todosCount = (() => {

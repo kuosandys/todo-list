@@ -3,10 +3,11 @@ import "./style.scss";
 
 import { TodosModel, Todo } from "./todos_model";
 import { ViewController } from "./view_controller.js";
+import placeholderData from "./placeholder_data";
 
 // Factory Function that creates the controller object with a single API method: startUp
 const TodosController = () => {
-  const model = TodosModel();
+  const model = TodosModel(placeholderData);
   const view = ViewController(Todo());
 
   // Initialize app
