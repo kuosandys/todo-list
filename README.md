@@ -37,7 +37,7 @@ The following are a list of features planned for the future:
 
 - sorting/filtering option for tasks (e.g. by date)
 - priority marking for tasks
-- UI design optimized for larger screens
+- ~~UI design optimized for larger screens~~
 - UI optimizations (e.g. displaying current project folder being viewed more clearly, CSS transitions)
 - dark theme or other colour themes for UI
-- a list of default tasks for first-time users to walk them though the app
+- ~~a list of default tasks for first-time users to walk them though the app~~
